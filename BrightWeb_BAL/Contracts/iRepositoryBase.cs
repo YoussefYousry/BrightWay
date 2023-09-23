@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BrightWeb_BAL.Contracts
 {
-    public interface iRepositoryBase<T>
+    public interface IRepositoryBase<T>
     {
         IQueryable<T> FindAll(bool trackChanges);
         IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges);

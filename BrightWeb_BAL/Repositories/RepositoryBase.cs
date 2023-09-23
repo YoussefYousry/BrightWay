@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BrightWeb_BAL.Repositories
 {
-    public class RepositoryBase<T> : iRepositoryBase<T> where T : class 
+    public class RepositoryBase<T> : IRepositoryBase<T> where T : class 
     {
         protected AppDbContext _context;
         public RepositoryBase(AppDbContext context)
