@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BrightWeb_BAL\BrightWeb_BAL.csproj" />
     <ProjectReference Include="..\BrightWeb_DAL\BrightWeb_DAL.csproj" />
   </ItemGroup>
 
