@@ -1,4 +1,5 @@
-﻿using BrightWeb_DAL.Models;
+﻿using BrightWeb_DAL.Configurations;
+using BrightWeb_DAL.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,6 +12,7 @@ namespace BrightWeb_DAL.Data
 {
     public class AppDbContext : IdentityDbContext<User>
     {
+        public DbSet<Student> Students { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
         {
             
@@ -18,6 +20,11 @@ namespace BrightWeb_DAL.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new RoleConfigrations());
+            builder.AddIndexes();
+            builder.AddInhertanceTables();
+            builder.AddManyToManyTables();
+            builder.AddOneToManyRelationship();
         }
     }
 }

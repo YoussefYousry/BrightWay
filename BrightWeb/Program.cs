@@ -1,4 +1,6 @@
 using BrightWeb.Extensions;
+using BrightWeb_DAL.Models;
+using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,18 +17,59 @@ builder.Services.AddCors(options =>
                });
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("StudentOnly", policy =>
+    {
+        policy.RequireRole("Student");
+    });
+    options.AddPolicy("AdminOnly", policy =>
+    {
+        policy.RequireRole("Admin");
+    });
+});
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.ConfigureLifeTime();
+builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.ConfigureIdentity<User>();
+builder.Services.ConfigureIdentity<Student>();
+builder.Services.ConfigureJwt(builder.Configuration);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
 builder.Services.AddControllers().AddJsonOptions(
   opt =>
       opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
 );
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(s =>
+{
+    s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Place to add JWT with Bearer",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+    s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+{
 
+    {
+        new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            },
+            Name = "Bearer",
+        },
+        new List<string>()
+    }
+});
+});
 
-builder.Services.ConfigureLifeTime();
-builder.Services.ConfigureSqlContext(builder.Configuration);
 
 var app = builder.Build();
 app.UseRouting();

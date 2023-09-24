@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using BrightWeb_BAL.DTO;
+using BrightWeb_DAL.Models;
 
 namespace BrightWeb
 {
@@ -6,6 +8,12 @@ namespace BrightWeb
     {
         public MappingProfile()
         {
+            CreateMap<UserForLoginDto, User>();
+            CreateMap<StudentForRegisterDto, Student>();
+            CreateMap<Student,StudentDto>();
+            CreateMap<StudentForUpdateDto, Student>();
+
+
         }
     }
 }

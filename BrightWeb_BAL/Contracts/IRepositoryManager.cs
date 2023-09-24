@@ -8,6 +8,7 @@ namespace BrightWeb_BAL.Contracts
 {
     public interface IRepositoryManager
     {
+        IStudentRepository Student{ get; }
         Task SaveChangesAsync();
     }
 }
