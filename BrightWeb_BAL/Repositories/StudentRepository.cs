@@ -25,7 +25,10 @@ namespace BrightWeb_BAL.Repositories
         public async Task<StudentDto?> GetStudentByIdAsync(string studentId, bool trackChanges)
             => await FindByCondition(e => e.Id == studentId, trackChanges)
             .ProjectTo<StudentDto>(_mapper.ConfigurationProvider)
-            .OrderBy(e => e.UserName)
+            .FirstOrDefaultAsync();
+
+        public async Task<Student?> GetSingleStudentByIdAsync(string studentId, bool trackChanges)
+            => await FindByCondition(e => e.Id == studentId, trackChanges)
             .FirstOrDefaultAsync();
 
         public async Task<IEnumerable<StudentDto?>> GetAllStudentsAsync(bool trackChanges)
@@ -40,8 +43,14 @@ namespace BrightWeb_BAL.Repositories
              .ProjectTo<StudentDto>(_mapper.ConfigurationProvider)
              .OrderBy(e => e.UserName)
              .ToListAsync();
+        //public void EnrollForCourse(Guid courseId, Student student)
+        //    => _context.Set<Course>().FirstOrDefault(c => c.Id == courseId)!.Students.Add(student);
         public void EnrollForCourse(Guid courseId, Student student)
-            => _context.Set<Course>().FirstOrDefault(c => c.Id == courseId)!.Students.Add(student);
+        {
+            var course = _context.Set<Course>().FirstOrDefault(c => c.Id == courseId);
+            course!.Students.Add(student);
+            course.Enrollments++;
+        }
         public async Task<bool> CheckToEnroll(Guid courseId, string studentId)
         {
             var students = await GetAllStudentsEnrolledInCourseAsync(courseId, false);

@@ -22,7 +22,7 @@ namespace BrightWeb_DAL.Configurations
         }
         public static void AddManyToManyTables(this ModelBuilder builder)
         {
-
+            builder.Entity<Student>().HasMany(r => r.Courses).WithMany(c => c.Students);
         }
         public static void AddOneToManyRelationship(this ModelBuilder builder)
         {

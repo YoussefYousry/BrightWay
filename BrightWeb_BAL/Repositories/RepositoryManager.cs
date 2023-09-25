@@ -14,14 +14,17 @@ namespace BrightWeb_BAL.Repositories
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         private IStudentRepository _student;
+        private ICourseRepository _course;
 
         public RepositoryManager(AppDbContext context
             ,IMapper mapper
-            ,IStudentRepository student)
+            ,IStudentRepository student
+            ,ICourseRepository course)
         {
             _context = context;
             _mapper = mapper;
             _student = student;
+            _course = course;
         }
         public IStudentRepository Student
         {
@@ -29,6 +32,14 @@ namespace BrightWeb_BAL.Repositories
             {
                 _student ??= new StudentRepository(_context, _mapper);
                 return _student;
+            }
+        }
+        public ICourseRepository Course
+        {
+            get
+            {
+                _course ??= new CourseRepository(_context);
+                return _course;
             }
         }
         public Task SaveChangesAsync() => _context.SaveChangesAsync();

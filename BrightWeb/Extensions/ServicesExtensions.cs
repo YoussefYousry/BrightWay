@@ -38,7 +38,7 @@ namespace BrightWeb.Extensions
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
-            var secretKey = Encoding.UTF8.GetBytes("ResearchersAPIKey");
+            var secretKey = Encoding.UTF8.GetBytes("BrightWay");
             services.AddAuthentication(opt =>
             {
                 //opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -69,11 +69,13 @@ namespace BrightWeb.Extensions
         {
             services.AddScoped<User, Student>();
             services.AddScoped<IRepositoryBase<Student>,StudentRepository>();
+            services.AddScoped<IRepositoryBase<Course>,CourseRepository>();
 
 
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IStudentRepository,StudentRepository>();
+            services.AddScoped<ICourseRepository,CourseRepository>();
 
         }
     }

@@ -39,7 +39,7 @@ namespace BrightWeb_BAL.Repositories
         }
         private SigningCredentials GetSigningCredentials()
         {
-            var key = Encoding.UTF8.GetBytes("ResearchersAPIKey");
+            var key = Encoding.UTF8.GetBytes("BrightWay");
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }

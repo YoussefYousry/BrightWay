@@ -13,6 +13,7 @@ namespace BrightWeb_BAL.Contracts
         void UpdateStudent(Student student);
         void DeleteStudent(Student student);
         Task<StudentDto?> GetStudentByIdAsync(string studentId, bool trackChanges);
+        Task<Student?> GetSingleStudentByIdAsync(string studentId, bool trackChanges);
         Task<IEnumerable<StudentDto?>> GetAllStudentsAsync(bool trackChanges);
         Task<IEnumerable<StudentDto>> GetAllStudentsEnrolledInCourseAsync(Guid courseId, bool trackChanges);
         void EnrollForCourse(Guid courseId, Student student);
