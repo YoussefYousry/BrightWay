@@ -57,7 +57,7 @@ namespace BrightWeb.Controllers
             {
                 return UnprocessableEntity(ModelState);
             }
-            var studentEntity = await _repositoryManager.Student.GetStudentByIdAsync(studentId, trackChanges: true);
+            var studentEntity = await _repositoryManager.Student.GetSingleStudentByIdAsync(studentId, trackChanges: true);
             if (studentEntity is null)
             {
                 return NotFound($"Student with ID: {studentId} doesn't exist in the database ");
