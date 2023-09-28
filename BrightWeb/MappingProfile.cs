@@ -15,11 +15,14 @@ namespace BrightWeb
             CreateMap<AdminForRegisterDto, User>();
             CreateMap<StudentForUpdateDto, Student>();
 
-            CreateMap<Course, CourseDto>();
-            CreateMap<CourseForCreationDto, Course>();
-            CreateMap<CourseForUpdateDto, Course>();
-            CreateMap<EnrollmentDto, Course>();
+            CreateMap<OnlineCourse, OnlineCourseDto>();
+            CreateMap<OnlineCourseForCreationDto, OnlineCourse>();
+            CreateMap<OnlineCourseForUpdateDto, OnlineCourse>();
+            CreateMap<EnrollmentDto, Course>(); // IMPORTANT
             CreateMap<EnrollmentDto, Student>();
+            CreateMap<OnDemandCourse, OnDemandCourseDto>();
+            CreateMap<OnDemandCourseForCreationDto, OnDemandCourse>();
+            CreateMap<OnDemandCourseForUpdateDto, OnDemandCourse>();
 
 
         }

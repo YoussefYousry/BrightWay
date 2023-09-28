@@ -13,6 +13,13 @@ namespace BrightWeb_DAL.Data
     public class AppDbContext : IdentityDbContext<User>
     {
         public DbSet<Student> Students { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<OnlineCourse> OnlineCourses { get; set; }
+        public DbSet<OnDemandCourse> OnDemandCourses { get; set; }
+        public DbSet<Section> Sections { get; set; }
+        public DbSet<Video> Videos { get; set; }
+        public DbSet<Document> Documents { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
         {
             

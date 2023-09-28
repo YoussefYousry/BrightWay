@@ -14,17 +14,20 @@ namespace BrightWeb_BAL.Repositories
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         private IStudentRepository _student;
-        private ICourseRepository _course;
+        private IOnlineCourseRepository _onlineCourse;
+        private IOnDemandCoursesRepository _onDemandCourse;
 
         public RepositoryManager(AppDbContext context
             ,IMapper mapper
             ,IStudentRepository student
-            ,ICourseRepository course)
+            ,IOnlineCourseRepository onlineCourse
+            ,IOnDemandCoursesRepository onDemandCourse)
         {
             _context = context;
             _mapper = mapper;
             _student = student;
-            _course = course;
+            _onlineCourse = onlineCourse;
+            _onDemandCourse = onDemandCourse;
         }
         public IStudentRepository Student
         {
@@ -34,12 +37,20 @@ namespace BrightWeb_BAL.Repositories
                 return _student;
             }
         }
-        public ICourseRepository Course
+        public IOnlineCourseRepository OnlineCourse
         {
             get
             {
-                _course ??= new CourseRepository(_context);
-                return _course;
+                _onlineCourse ??= new OnlineCourseRepository(_context);
+                return _onlineCourse;
+            }
+        }
+        public IOnDemandCoursesRepository OnDemandCourse
+        {
+            get
+            {
+                _onDemandCourse ??= new OnDemandCoursesRepository(_context);
+                return _onDemandCourse;
             }
         }
         public Task SaveChangesAsync() => _context.SaveChangesAsync();

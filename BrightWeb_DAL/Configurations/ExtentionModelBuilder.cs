@@ -19,6 +19,10 @@ namespace BrightWeb_DAL.Configurations
             builder.Entity<User>().UseTptMappingStrategy().ToTable("Users");
             builder.Entity<Student>()
                 .ToTable("Students").HasBaseType<User>();
+            builder.Entity<OnDemandCourse>()
+                .ToTable("OnDemandCourses").HasBaseType<Course>();
+            builder.Entity<OnlineCourse>()
+                 .ToTable("OnlineCourses").HasBaseType<Course>();
         }
         public static void AddManyToManyTables(this ModelBuilder builder)
         {
@@ -26,6 +30,8 @@ namespace BrightWeb_DAL.Configurations
         }
         public static void AddOneToManyRelationship(this ModelBuilder builder)
         {
+            builder.Entity<OnDemandCourse>().HasMany(c => c.Sections).WithOne(s => s.OnDemandCourse);
+            builder.Entity<Section>().HasMany(s => s.Videos).WithOne(v => v.Section);
 
         }
     }

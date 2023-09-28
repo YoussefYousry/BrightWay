@@ -2,22 +2,19 @@
 using BrightWeb_BAL.Contracts;
 using BrightWeb_BAL.DTO;
 using BrightWeb_DAL.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.Data;
 
 namespace BrightWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CoursesController : ControllerBase
+    public class OnlineCoursesController : ControllerBase
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
 
-        public CoursesController(
+        public OnlineCoursesController(
                  IRepositoryManager repository, IMapper mapper)
         {
             _repositoryManager = repository;
@@ -27,17 +24,17 @@ namespace BrightWeb.Controllers
         //[Authorize(Roles = "Student,Admin")]
         public async Task<IActionResult> GetAllCourses()
         {
-            var courses = await _repositoryManager.Course.GetAllCoursesAsync();
+            var courses = await _repositoryManager.OnlineCourse.GetAllCoursesAsync();
             if (courses is null)
             {
                 return NotFound("There are no courses in the database");
             }
-            var courseDto = _mapper.Map<IEnumerable<CourseDto>>(courses);
+            var courseDto = _mapper.Map<IEnumerable<OnlineCourseDto>>(courses);
             foreach (var course in courseDto)
             {
                 if (course.HasDiscount)
                 {
-                    course.Price= await _repositoryManager.Course.CalculateFinalPrice(course.Id);
+                    course.Price = await _repositoryManager.OnlineCourse.CalculateFinalPrice(course.Id);
                 }
             }
             return Ok(courseDto);
@@ -46,27 +43,29 @@ namespace BrightWeb.Controllers
         //[Authorize(Roles = "Student,Admin")]
         public async Task<IActionResult> GetAllDiscountedCourses()
         {
-            var courses = await _repositoryManager.Course.GetDiscountCourses();
+            var courses = await _repositoryManager.OnlineCourse.GetDiscountCourses();
             if (courses is null)
                 return NotFound("There are no discounted courses in the database");
-            var courseDto = _mapper.Map<IEnumerable<CourseDto>>(courses);
+            var courseDto = _mapper.Map<IEnumerable<OnlineCourseDto>>(courses);
             foreach (var course in courseDto)
             {
                 if (course.HasDiscount)
-                    course.Price = await _repositoryManager.Course.CalculateFinalPrice(course.Id);
+                    course.Price = await _repositoryManager.OnlineCourse.CalculateFinalPrice(course.Id);
             }
             return Ok(courseDto);
         }
         [HttpPost]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateCourse([FromBody] CourseForCreationDto course)
+        public async Task<IActionResult> CreateCourse([FromBody] OnlineCourseForCreationDto course)
         {
             if (!ModelState.IsValid)
             {
                 return UnprocessableEntity(ModelState);
             }
-            var courseEntity = _mapper.Map<Course>(course);
-            _repositoryManager.Course.CreateCourse(courseEntity);
+            if (course.Start > course.End)
+                return BadRequest("Invalid Date Values");
+            var courseEntity = _mapper.Map<OnlineCourse>(course);
+            _repositoryManager.OnlineCourse.CreateCourse(courseEntity);
             await _repositoryManager.SaveChangesAsync();
             return Ok(
                 new { CourseId = courseEntity.Id }
@@ -76,39 +75,39 @@ namespace BrightWeb.Controllers
         //[Authorize(Roles = "Student,Admin")]
         public async Task<IActionResult> GetCourse(Guid courseId)
         {
-            var course = await _repositoryManager.Course.GetCourseByIdAsync(courseId, trackChanges: false);
+            var course = await _repositoryManager.OnlineCourse.GetCourseByIdAsync(courseId, trackChanges: false);
             if (course is null)
             {
                 return NotFound($"Course with ID: {courseId} doesn't exist in the database ");
             }
-            var courseDto = _mapper.Map<CourseDto>(course);
+            var courseDto = _mapper.Map<OnlineCourseDto>(course);
             if (courseDto.HasDiscount)
-                courseDto.Price = await _repositoryManager.Course.CalculateFinalPrice(course.Id);
+                courseDto.Price = await _repositoryManager.OnlineCourse.CalculateFinalPrice(course.Id);
             return Ok(courseDto);
         }
         //[Authorize(Roles = "Admin")]
         [HttpDelete("{courseId}")]
         public async Task<IActionResult> DeleteCourse(Guid courseId)
         {
-            var course = await _repositoryManager.Course.GetCourseByIdAsync(courseId, trackChanges: false);
+            var course = await _repositoryManager.OnlineCourse.GetCourseByIdAsync(courseId, trackChanges: false);
             if (course is null)
             {
                 return NotFound($"Course with ID: {courseId} doesn't exist in the database ");
             }
-            _repositoryManager.Course.DeleteCourse(course);
+            _repositoryManager.OnlineCourse.DeleteCourse(course);
             await _repositoryManager.SaveChangesAsync();
             return NoContent();
         }
         [HttpPut("{courseId}")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateCourse([FromBody] CourseForUpdateDto course
+        public async Task<IActionResult> UpdateCourse([FromBody] OnlineCourseForUpdateDto course
             , Guid courseId)
         {
             if (!ModelState.IsValid)
             {
                 return UnprocessableEntity(ModelState);
             }
-            var courseEntity = await _repositoryManager.Course.GetCourseByIdAsync(courseId, trackChanges: true);
+            var courseEntity = await _repositoryManager.OnlineCourse.GetCourseByIdAsync(courseId, trackChanges: true);
             if (courseEntity is null)
             {
                 return NotFound($"Course with ID: {courseId} doesn't exist in the database ");
@@ -122,7 +121,7 @@ namespace BrightWeb.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllStudentsEnrolledInCourse(Guid courseId)
         {
-            var course = await _repositoryManager.Course.GetCourseByIdAsync(courseId, trackChanges: false);
+            var course = await _repositoryManager.OnlineCourse.GetCourseByIdAsync(courseId, trackChanges: false);
             if (course is null)
             {
                 return NotFound($"Course with ID: {courseId} doesn't exist in the database ");
@@ -131,51 +130,6 @@ namespace BrightWeb.Controllers
             //var studentDto = _mapper.Map<IEnumerable<StudentDto>>(student);
             return Ok(enrolledStudents);
         }
-        [HttpGet("CheckEnrollment/{courseId}/{studentId}")]
-        //[Authorize(Roles = "Student,Admin")]
-        public async Task<IActionResult> CheckEnrollement(Guid courseId, string studentId)
-        {
-            var student = await _repositoryManager.Student.GetStudentByIdAsync(studentId, trackChanges: false);
-            var course = await _repositoryManager.Course.GetCourseByIdAsync(courseId, trackChanges: false);
 
-            if (student is null || course is null)
-            {
-                return BadRequest($"Student's ID (OR) Course's ID doesn't exist in the database");
-
-            }
-            bool result = await _repositoryManager.Student.CheckToEnroll(courseId, studentId);
-            return Ok(new
-            {
-                IsEnrolled = result,
-            });
-        }
-        [HttpPut("Enrollment/{courseId}")]
-        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EnrollForACourse([FromBody] EnrollmentDto enrollment, Guid courseId)
-        {
-            if (!ModelState.IsValid)
-            {
-                return UnprocessableEntity(ModelState);
-            }
-            var student = await _repositoryManager.Student.GetSingleStudentByIdAsync(enrollment.studentId, trackChanges: true);
-            var course = await _repositoryManager.Course.GetCourseByIdAsync(courseId, trackChanges: true);
-
-            if (student is null || course is null)
-            {
-                return BadRequest($"Student's ID (OR) Course's ID doesn't exist in the database");
-
-            }
-            var enrolled = await _repositoryManager.Student.CheckToEnroll(courseId, enrollment.studentId);
-            if (enrolled != false)
-            {
-                return BadRequest("Student is already enrolled in the course");
-            }
-            _repositoryManager.Student.EnrollForCourse(courseId, student);
-            _mapper.Map(enrollment, course);
-            await _repositoryManager.SaveChangesAsync();
-            return NoContent();
-
-        }
     }
-
 }

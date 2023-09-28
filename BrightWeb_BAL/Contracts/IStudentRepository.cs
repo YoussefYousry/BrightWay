@@ -18,5 +18,6 @@ namespace BrightWeb_BAL.Contracts
         Task<IEnumerable<StudentDto>> GetAllStudentsEnrolledInCourseAsync(Guid courseId, bool trackChanges);
         void EnrollForCourse(Guid courseId, Student student);
         Task<bool> CheckToEnroll(Guid courseId, string studentId);
+        Task<Course> GetCourseByIdToCheck(Guid courseId);
     }
 }

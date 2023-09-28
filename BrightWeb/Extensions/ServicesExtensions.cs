@@ -68,14 +68,19 @@ namespace BrightWeb.Extensions
         public static void ConfigureLifeTime(this IServiceCollection services)
         {
             services.AddScoped<User, Student>();
+            //services.AddScoped<Course,OnlineCourse>();
+            //services.AddScoped<Course,OnDemandCourse>();
             services.AddScoped<IRepositoryBase<Student>,StudentRepository>();
-            services.AddScoped<IRepositoryBase<Course>,CourseRepository>();
+            services.AddScoped<IRepositoryBase<OnlineCourse>,OnlineCourseRepository>();
+            services.AddScoped<IRepositoryBase<OnDemandCourse>,OnDemandCoursesRepository>();
 
 
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IStudentRepository,StudentRepository>();
-            services.AddScoped<ICourseRepository,CourseRepository>();
+            services.AddScoped<IOnlineCourseRepository,OnlineCourseRepository>();
+            services.AddScoped<IOnDemandCoursesRepository,OnDemandCoursesRepository>();
+            services.AddScoped<IFilesManager, FilesManager>();
 
         }
     }

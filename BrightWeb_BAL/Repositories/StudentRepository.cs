@@ -61,5 +61,11 @@ namespace BrightWeb_BAL.Repositories
             }
             return true;
         }
+        public async Task<Course> GetCourseByIdToCheck(Guid courseId)
+        {
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == courseId);
+            return course!;
+        }
+
     }
 }
