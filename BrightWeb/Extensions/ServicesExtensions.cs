@@ -38,7 +38,7 @@ namespace BrightWeb.Extensions
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
-            var secretKey = Encoding.UTF8.GetBytes("BrightWay");
+            var secretKey = Encoding.UTF8.GetBytes("BrightWaySecretAPIKeyValueToStoreInServer");
             services.AddAuthentication(opt =>
             {
                 //opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
