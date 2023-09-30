@@ -11,6 +11,8 @@ namespace BrightWeb_BAL.Contracts
         IStudentRepository Student{ get; }
         IOnlineCourseRepository OnlineCourse { get; }
         IOnDemandCoursesRepository OnDemandCourse{ get; }
+        IProductsRepository Products { get; }
+        IPublicationRepository Publications { get; }
         Task SaveChangesAsync();
     }
 }

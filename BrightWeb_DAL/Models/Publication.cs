@@ -12,7 +12,7 @@ namespace BrightWeb_DAL.Models
         public required string Title { get; set; }
         public  string? Description { get; set; }
         //public bool IsFree { get; set; }
-        public required string FileUrl { get; set; }
+        public string FileUrl { get; set; } = "NotFound";
         public double Price { get; set; }
         public string ImageUrl { get; set; } = "NotFound";
     }

@@ -82,6 +82,14 @@ namespace BrightWeb.Extensions
             services.AddScoped<IOnDemandCoursesRepository,OnDemandCoursesRepository>();
             services.AddScoped<IFilesManager, FilesManager>();
 
+
+            services.AddScoped<IProductsRepository, ProductsRepository>();
+            services.AddScoped<RepositoryBase<Product>, ProductsRepository>();
+
+
+            services.AddScoped<IPublicationRepository, PublicationRepository>();
+            services.AddScoped<RepositoryBase<Publication>, PublicationRepository>();
+
         }
     }
 }

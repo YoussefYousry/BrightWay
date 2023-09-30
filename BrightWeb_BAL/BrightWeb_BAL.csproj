@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="RequestFeatures\" />
+    <Compile Remove="RequestFeatures\**" />
+    <EmbeddedResource Remove="RequestFeatures\**" />
+    <None Remove="RequestFeatures\**" />
   </ItemGroup>
 
   <ItemGroup>
