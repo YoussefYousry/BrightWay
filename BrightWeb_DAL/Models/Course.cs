@@ -17,7 +17,7 @@ namespace BrightWeb_DAL.Models
         public required string Name { get; set; }
         public string? Description { get; set; }
         public string? Objectives { get; set; }
-        public double Price { get; set; }
+        public double DefaultPrice { get; set; }
         public double Discount { get; set; } = 0;
         public bool HasDiscount { get; set; }
         public virtual ICollection<Student> Students { get; set; }
@@ -27,5 +27,6 @@ namespace BrightWeb_DAL.Models
         public string? IntructorName { get; set; }
         public string? IntructorDescription { get; set; }
         public string? IntructorImageUrl { get; set; } = "NotFound"; 
+       
     }
 }

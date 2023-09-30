@@ -11,7 +11,9 @@ namespace BrightWeb_DAL.Models
         public OnDemandCourse()
         {
             Sections = new HashSet<Section>();
+            Packages = new HashSet<Package>();
         }
         public virtual ICollection<Section> Sections { get; set; }
+        public ICollection<Package> Packages { get; set; }
     }
 }

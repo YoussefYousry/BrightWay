@@ -14,10 +14,12 @@ namespace BrightWeb_DAL.Models
         public Student()
         {
             Courses = new HashSet<Course>();
+            Products = new HashSet<Product>();
         }
         public required string Firstname { get; set; }
         public required string Lastname { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
         public Gender Gender { get; set; }
     }
     public enum Gender

@@ -38,10 +38,10 @@ namespace BrightWeb_BAL.Repositories
             var course = await FindByCondition(c => c.Id == courseId, trackChanges: false).FirstOrDefaultAsync();
             if (course!.HasDiscount == true)
             {
-                double discountAmount = (course.Discount / 100) * course.Price;
-                return course.Price - discountAmount;
+                double discountAmount = (course.Discount / 100) * course.DefaultPrice;
+                return course.DefaultPrice - discountAmount;
             }
-            return course.Price;
+            return course.DefaultPrice;
         }
     }
 }

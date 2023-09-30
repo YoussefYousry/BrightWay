@@ -18,7 +18,12 @@ namespace BrightWeb_DAL.Data
         public DbSet<OnDemandCourse> OnDemandCourses { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Video> Videos { get; set; }
-        public DbSet<Document> Documents { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Publication> Publications { get; set; }
+        public DbSet<Package> Packages { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectImages> ProjectImages { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
         {
