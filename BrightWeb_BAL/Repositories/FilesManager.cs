@@ -27,14 +27,21 @@ namespace BrightWeb_BAL.Repositories
             if (File.Exists(dbPath))
             { File.Delete(dbPath); }
         }
-        public byte[] GetFileBytes(string fileName)
+        public byte[]? GetFileBytes(string fileName)
         {
-
-            var folderName = Path.Combine("Resources", "Media");
-            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-            var dbPath = Path.Combine(pathToSave, fileName);
-            byte[] fileBytes = File.ReadAllBytes(dbPath);
-            return fileBytes;
+            try
+            {
+                var folderName = Path.Combine("Resources", "Media");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                var dbPath = Path.Combine(pathToSave, fileName);
+                byte[] fileBytes = File.ReadAllBytes(dbPath);
+                return fileBytes;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+            
         }
         public string UploadFiles(IFormFile file)
         {
