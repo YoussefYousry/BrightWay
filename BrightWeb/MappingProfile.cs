@@ -24,8 +24,10 @@ namespace BrightWeb
             CreateMap<OnDemandCourseForCreationDto, OnDemandCourse>();
             CreateMap<OnDemandCourseForUpdateDto, OnDemandCourse>();
 
-            CreateMap<ProductForCreateDto, Product>();
+            CreateMap<ProductForCreateDto, Product>(); 
+            CreateMap<ProductForUpdateDto, Product>();
             CreateMap<PublicationForCreateDto, Publication>();
+            CreateMap<PublicationForUpdateDto, Publication>();
 
         }
     }

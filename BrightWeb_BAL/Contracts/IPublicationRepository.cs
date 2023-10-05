@@ -16,7 +16,7 @@ namespace BrightWeb_BAL.Contracts
         Task<List<DocumentViewModel>> GetAllPublication(DocumentsParamters paramters);
         Task<DocumentViewModel?> GetPublication(int id);
         Task<Publication> CreatePublication(PublicationForCreateDto publicationDto);
-        Task GetPublicationEntity(int id);
+        Task<Publication?> GetPublicationEntity(int id);
         void DeletePublication(Publication publication);
         Task UploadFile(int productId, IFormFile file);
         Task UploadImage(int productId, IFormFile file);

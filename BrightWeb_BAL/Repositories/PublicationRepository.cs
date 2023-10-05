@@ -57,10 +57,11 @@ namespace BrightWeb_BAL.Repositories
         {
             Publication Publication = _mapper.Map<Publication>(publicationDto);
            var result = await _appDbContext.Publications.AddAsync(Publication);
+           await _appDbContext.SaveChangesAsync();
             return result.Entity;
         }
-        public async Task GetPublicationEntity(int id)
-          => await FindByCondition(p => p.Id == id, trackChanges: false).FirstOrDefaultAsync();
+        public async Task<Publication?> GetPublicationEntity(int id)
+          => await FindByCondition(p => p.Id == id, trackChanges: true).FirstOrDefaultAsync();
         public void DeletePublication(Publication publication) => Delete(publication);
 
         public async Task UploadFile(int productId, IFormFile file)

@@ -76,6 +76,7 @@ namespace BrightWeb_BAL.Repositories
            var product = await _appDbContext.Products.Where(p=>p.Id==productId).FirstOrDefaultAsync();
             var student = await _appDbContext.Students.Where(s => s.Id == studentId).Include(p=>p.Products).FirstOrDefaultAsync();
              student!.Products.Add(product!);
+
         }
         public async Task<Product> CreateProduct(ProductForCreateDto productDto)
         {
@@ -84,8 +85,8 @@ namespace BrightWeb_BAL.Repositories
             await _appDbContext.SaveChangesAsync();
             return result.Entity;
         }
-        public async Task GetProduct(int id)
-          => await FindByCondition(p=>p.Id == id,trackChanges:false).FirstOrDefaultAsync();
+        public async Task<Product?> GetProduct(int id)
+          => await FindByCondition(p=>p.Id == id,trackChanges:true).FirstOrDefaultAsync();
         public void DeleteProduct(Product product) => Delete(product);
 
         public async Task UploadFile(int productId,IFormFile file)

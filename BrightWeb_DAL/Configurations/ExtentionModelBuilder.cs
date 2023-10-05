@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +34,10 @@ namespace BrightWeb_DAL.Configurations
         {
             builder.Entity<OnDemandCourse>().HasMany(c => c.Sections).WithOne(s => s.OnDemandCourse);
             builder.Entity<Section>().HasMany(s => s.Videos).WithOne(v => v.Section);
-
+            builder.Entity<Product>()
+           .HasIndex(p => p.Title);
+            builder.Entity<Publication>()
+                .HasIndex(p => p.Title);
         }
     }
 }

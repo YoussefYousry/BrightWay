@@ -18,7 +18,7 @@ namespace BrightWeb_BAL.Contracts
         Task<DocumentViewModel?> GetProductWithFile(int productId);
         Task<bool> ValidateStudentPay(string studentId, int productId);
         Task<Product> CreateProduct(ProductForCreateDto productDto);
-        Task GetProduct(int id);
+        Task<Product?> GetProduct(int id);
        void DeleteProduct(Product product);
         Task UploadFile(int productId, IFormFile file);
         Task UploadImage(int productId, IFormFile file);

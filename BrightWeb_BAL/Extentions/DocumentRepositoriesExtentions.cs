@@ -14,7 +14,7 @@ namespace BrightWeb_BAL.Extentions
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 string lowerCaseTerm = searchTerm.ToLower();
-                products = products.Where(c=>c.Title.ToLower() == lowerCaseTerm );
+                products = products.Where(c=>c.Title.ToLower().Contains(lowerCaseTerm) );
                 
             }
             return products;
@@ -24,7 +24,7 @@ namespace BrightWeb_BAL.Extentions
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 string lowerCaseTerm = searchTerm.ToLower();
-                publications = publications.Where(c=>c.Title.ToLower() == lowerCaseTerm );
+                publications = publications.Where(c=>c.Title.ToLower().Contains(lowerCaseTerm));
                 
             }
             return publications;
