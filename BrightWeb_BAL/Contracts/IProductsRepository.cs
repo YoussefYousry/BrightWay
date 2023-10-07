@@ -23,6 +23,7 @@ namespace BrightWeb_BAL.Contracts
         Task UploadFile(int productId, IFormFile file);
         Task UploadImage(int productId, IFormFile file);
         Task AddProductToStudent(int productId, string studentId);
+        Task<FileStream> GetProductFile(int prodId);
 
     }
 }

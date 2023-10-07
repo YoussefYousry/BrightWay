@@ -19,7 +19,7 @@ namespace BrightWeb_BAL.Repositories
         private IOnDemandCoursesRepository _onDemandCourse;
         private IProductsRepository _Products;
         private IPublicationRepository _Publications;
-
+        private IPackageRepository _Packages;
         public RepositoryManager(AppDbContext context
             ,IMapper mapper
             , IStudentRepository student
@@ -27,7 +27,8 @@ namespace BrightWeb_BAL.Repositories
             , IOnDemandCoursesRepository onDemandCourse,
              IFilesManager filesManager,
              IProductsRepository products,
-             IPublicationRepository publications)
+             IPublicationRepository publications,
+             IPackageRepository packages)
         {
             _context = context;
             _mapper = mapper;
@@ -37,6 +38,7 @@ namespace BrightWeb_BAL.Repositories
             _filesManager = filesManager;
             _Products = products;
             _Publications = publications;
+            _Packages = packages;
         }
         public IStudentRepository Student
         {
@@ -76,6 +78,14 @@ namespace BrightWeb_BAL.Repositories
             {
                 _Publications ??= new PublicationRepository(_context,_mapper,_filesManager);
                 return _Publications;
+            }
+        }
+        public IPackageRepository Packages
+        {
+            get
+            {
+                _Packages ??= new PackageRepository(_context,_mapper);
+                return _Packages;
             }
         }
         public Task SaveChangesAsync() => _context.SaveChangesAsync();

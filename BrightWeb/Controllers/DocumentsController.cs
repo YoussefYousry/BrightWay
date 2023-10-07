@@ -121,6 +121,28 @@ namespace BrightWeb.Controllers
             }
             
         }
+        [HttpGet("Product/GetFile/{productId}")]
+        public async Task<IActionResult> GetProductFile(int productId)
+        {
+            var product = await _repositoryManager.Products.GetProduct(productId);
+            if(product is null)
+            {
+                return NotFound();
+            }
+            FileStream file = await _repositoryManager.Products.GetProductFile(productId);
+            return new FileStreamResult(file,"application/pdf");
+        } 
+        [HttpGet("Publication/GetFile/{publicationId}")]
+        public async Task<IActionResult> GetPublicationFile(int publicationId)
+        {
+            var pub = await _repositoryManager.Publications.GetPublication(publicationId);
+            if(pub is null)
+            {
+                return NotFound();
+            }
+            FileStream file = await _repositoryManager.Products.GetProductFile(publicationId);
+            return new FileStreamResult(file,"application/pdf");
+        }
         [HttpGet("Publications")]
         public async Task<IActionResult> GetAllPublications([FromQuery] DocumentsParamters paramters)
         {

@@ -20,5 +20,6 @@ namespace BrightWeb_BAL.Contracts
         void DeletePublication(Publication publication);
         Task UploadFile(int productId, IFormFile file);
         Task UploadImage(int productId, IFormFile file);
+        Task<FileStream> GetPublicationFile(int pubId);
     }
 }

@@ -45,11 +45,11 @@ namespace BrightWeb_BAL.Repositories
              .ToListAsync();
         //public void EnrollForCourse(Guid courseId, Student student)
         //    => _context.Set<Course>().FirstOrDefault(c => c.Id == courseId)!.Students.Add(student);
-        public void EnrollForCourse(Guid courseId, Student student)
+        private async Task AddEnrollment(Guid courseId)
         {
-            var course = _context.Set<Course>().FirstOrDefault(c => c.Id == courseId);
-            course!.Students.Add(student);
-            course.Enrollments++;
+            var course = await _context.Set<Course>().FirstOrDefaultAsync(c => c.Id == courseId);
+          //  course!.Students.Add(student);
+            course!.Enrollments++;
         }
         public async Task<bool> CheckToEnroll(Guid courseId, string studentId)
         {
@@ -65,6 +65,13 @@ namespace BrightWeb_BAL.Repositories
         {
             var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == courseId);
             return course!;
+        }
+      public async Task EnrollInCourse(EnrollmentForCreateDto enrollmentDto)
+        {
+            Enrollment enrollment = _mapper.Map<Enrollment>(enrollmentDto); 
+           await _context.Enrollments.AddAsync(enrollment);
+            await _context.SaveChangesAsync();
+            await AddEnrollment(enrollment.CourseId);
         }
 
     }

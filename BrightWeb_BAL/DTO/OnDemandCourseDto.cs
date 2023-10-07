@@ -15,9 +15,13 @@ namespace BrightWeb_BAL.DTO
         public required double Price { get; set; }
         public double Discount { get; set; }
         public bool HasDiscount { get; set; }
+        public string ImageUrl { get; set; } = "NotFound";
         public required int Enrollments { get; set; }
         public required string Hours { get; set; }
         public string? IntructorName { get; set; }
         public string? IntructorDescription { get; set; }
+        public string? IntructorImageUrl { get; set; } = "NotFound";
+        public ICollection<PackageDto> Packages { get; set; }
+        public ICollection<SectionDto> Sections { get; set; }
     }
 }

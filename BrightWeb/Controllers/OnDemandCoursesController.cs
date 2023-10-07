@@ -131,6 +131,22 @@ namespace BrightWeb.Controllers
             var studentDto = _mapper.Map<IEnumerable<StudentDto>>(enrolledStudents);
             return Ok(studentDto);
         }
+        [HttpGet("GetAllOnDemandCourses")]
+        public async Task<IActionResult> GetAllOnDemandCourses()
+        {
+            var result = await _repositoryManager.OnDemandCourse.GetCourses();
+            return Ok(result);
+        }
+        [HttpGet("GetSingleCourse/{courseId}")]
+        public async Task<IActionResult> GetSingleCourse(Guid courseId)
+        {
+            var result = await _repositoryManager.OnDemandCourse.GetCourse(courseId);
+            if(result is null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
     }
 
 }

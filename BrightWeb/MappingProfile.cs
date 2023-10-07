@@ -26,8 +26,13 @@ namespace BrightWeb
 
             CreateMap<ProductForCreateDto, Product>(); 
             CreateMap<ProductForUpdateDto, Product>();
+
             CreateMap<PublicationForCreateDto, Publication>();
             CreateMap<PublicationForUpdateDto, Publication>();
+
+            CreateMap<Package, PackageDto>();
+            CreateMap<PackageForCreateDto, Package>();
+            CreateMap<PackageForUpdateDto, Package>();
 
         }
     }

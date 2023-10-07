@@ -113,29 +113,29 @@ namespace BrightWeb.Controllers
             });
         }
 
-        [HttpPut("Enrollment/{courseId}")]
+        [HttpPost("Enrollment")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EnrollForACourse([FromBody] EnrollmentDto enrollment, Guid courseId)
+        public async Task<IActionResult> EnrollForACourse([FromBody] EnrollmentForCreateDto enrollment)
         {
             if (!ModelState.IsValid)
             {
                 return UnprocessableEntity(ModelState);
             }
-            var student = await _repositoryManager.Student.GetSingleStudentByIdAsync(enrollment.studentId, trackChanges: true);
-            var course = await _repositoryManager.Student.GetCourseByIdToCheck(courseId);
+            var student = await _repositoryManager.Student.GetSingleStudentByIdAsync(enrollment.StudentId, trackChanges: true);
+            var course = await _repositoryManager.Student.GetCourseByIdToCheck(enrollment.CourseId);
 
             if (student is null || course is null)
             {
                 return BadRequest($"Student's ID (OR) Course's ID doesn't exist in the database");
 
             }
-            var enrolled = await _repositoryManager.Student.CheckToEnroll(courseId, enrollment.studentId);
+            var enrolled = await _repositoryManager.Student.CheckToEnroll(enrollment.CourseId, enrollment.StudentId);
             if (enrolled != false)
             {
                 return BadRequest("Student is already enrolled in the course");
             }
-            _repositoryManager.Student.EnrollForCourse(courseId, student);
-            _mapper.Map(enrollment, course);
+          await  _repositoryManager.Student.EnrollInCourse(enrollment);
+           // _mapper.Map(enrollment, course);
             await _repositoryManager.SaveChangesAsync();
             return NoContent();
 

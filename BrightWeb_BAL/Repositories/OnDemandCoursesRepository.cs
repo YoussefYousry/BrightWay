@@ -1,4 +1,8 @@
-﻿using BrightWeb_BAL.Contracts;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using BrightWeb_BAL.Contracts;
+using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Data;
 using BrightWeb_DAL.Models;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +16,12 @@ namespace BrightWeb_BAL.Repositories
 {
     public class OnDemandCoursesRepository : RepositoryBase<OnDemandCourse> , IOnDemandCoursesRepository
     {
-        public OnDemandCoursesRepository(AppDbContext context) : base(context)
+        private IMapper _mapper;
+        private IFilesManager _filesManager;
+        public OnDemandCoursesRepository(AppDbContext context,IMapper mapper, IFilesManager filesManager) : base(context)
         {
+            _filesManager = filesManager;
+            _mapper = mapper;
         }
 
         public void CreateCourse(OnDemandCourse course) => Create(course);
@@ -44,5 +52,45 @@ namespace BrightWeb_BAL.Repositories
             }
             return course.DefaultPrice;
         }
+        public async Task<OnDemandCourseViewModel?> GetCourse(Guid courseId)
+        {
+            var course = await FindByCondition(c => c.Id == courseId, false).Include(c => c.Packages)
+                .ProjectTo<OnDemandCourseDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+            var result = new OnDemandCourseViewModel
+            {
+                Name = course!.Name,
+                Description = course.Description,
+                DefaultPrice = course.Price,
+                Discount = course.Discount,
+                Enrollments = course.Enrollments,
+                HasDiscount = course.HasDiscount,
+                Hours = course.Hours,
+                Id = course.Id,
+                IntructorDescription = course.IntructorDescription,
+                ImageBytes = _filesManager.GetFileBytes(course.ImageUrl),
+                IntructorName = course.IntructorName,
+                IntructorImageBytes = _filesManager.GetFileBytes(course.IntructorImageUrl!),
+                Packages = course.Packages,
+                Sections = course.Sections,
+            };
+            return result;    
+        }
+        public async Task<List<OnDemandCourseViewModel>> GetCourses()
+         => await FindAll(false)
+            .Select(course => new OnDemandCourseViewModel
+             {
+             Name = course!.Name,
+             Description = course.Description,
+             Discount = course.Discount,
+             Enrollments = course.Enrollments,
+             HasDiscount = course.HasDiscount,
+             Hours = course.Hours,
+             Id = course.Id,
+             IntructorDescription = course.IntructorDescription,
+             ImageBytes = _filesManager.GetFileBytes(course.ImageUrl),
+             IntructorName = course.IntructorName,
+             IntructorImageBytes = _filesManager.GetFileBytes(course.IntructorImageUrl!),
+         }).ToListAsync();
+        
     }
 }

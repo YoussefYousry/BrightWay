@@ -1,4 +1,5 @@
-﻿using BrightWeb_DAL.Models;
+﻿using BrightWeb_BAL.ViewModels;
+using BrightWeb_DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,7 @@ namespace BrightWeb_BAL.Contracts
         Task<IEnumerable<OnDemandCourse?>> GetAllCoursesForStudentAsync(string studentId, bool trackChanges);
         Task<IEnumerable<OnDemandCourse?>> GetDiscountCourses();
         Task<double> CalculateFinalPrice(Guid courseId);
+        Task<OnDemandCourseViewModel?> GetCourse(Guid courseId);
+        Task<List<OnDemandCourseViewModel>> GetCourses();
     }
 }

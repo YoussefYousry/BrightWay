@@ -101,6 +101,11 @@ namespace BrightWeb_BAL.Repositories
            string url =  _filesManager.UploadFiles(file);
             product!.ImageUrl = url;
         }
-
+        public async Task<FileStream> GetProductFile(int prodId)
+        {
+            var fileName = await FindByCondition(p=>p.Id == prodId,false).Select(p=>p.FileUrl).FirstOrDefaultAsync();
+           FileStream file = _filesManager.GetFile(fileName!);
+            return file;
+        }
     }
 }
