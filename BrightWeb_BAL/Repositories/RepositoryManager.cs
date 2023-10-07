@@ -60,7 +60,7 @@ namespace BrightWeb_BAL.Repositories
         {
             get
             {
-                _onDemandCourse ??= new OnDemandCoursesRepository(_context);
+                _onDemandCourse ??= new OnDemandCoursesRepository(_context,_mapper,_filesManager);
                 return _onDemandCourse;
             }
         }
