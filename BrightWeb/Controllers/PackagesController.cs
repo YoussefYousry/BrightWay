@@ -55,7 +55,7 @@ namespace BrightWeb.Controllers
         [HttpGet("PackegesToCourse/{courseId}")]
         public async Task<IActionResult> GetPackagesToCourse(Guid courseId)
         {
-             var course = await _repositoryManager.OnlineCourse.GetCourseByIdAsync(courseId,trackChanges:false);
+             var course = await _repositoryManager.OnDemandCourse.GetCourseByIdAsync(courseId,trackChanges:false);
             if(course is null)
             {
                 return NotFound("Course Id Not Found");

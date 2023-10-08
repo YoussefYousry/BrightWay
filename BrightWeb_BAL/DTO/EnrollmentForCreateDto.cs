@@ -10,7 +10,7 @@ namespace BrightWeb_BAL.DTO
 {
     public class EnrollmentForCreateDto
     {
-        public Guid Id { get; set; }
+      //  public Guid Id { get; set; }
         public required string StudentId { get; set; }
         public Guid CourseId { get; set; }
         public Guid? PackageId { get; set; }
