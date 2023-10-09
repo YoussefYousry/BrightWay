@@ -140,5 +140,16 @@ namespace BrightWeb.Controllers
             return NoContent();
 
         }
+        [HttpGet("Enrollements/{studentId}")]
+        public async Task<IActionResult> GetEnrollmentsToStudent(string studentId)
+        {
+            var student = await _repositoryManager.Student.GetSingleStudentByIdAsync(studentId, trackChanges: false);
+            if(student is null)
+            {
+                return NotFound("studentId not Found");
+            }
+            var enrollments = await _repositoryManager.Student.GetEnrollementsToStudent(studentId);
+            return Ok(enrollments);
+        }
     }
 }

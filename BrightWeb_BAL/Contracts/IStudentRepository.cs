@@ -19,5 +19,6 @@ namespace BrightWeb_BAL.Contracts
         Task EnrollInCourse(EnrollmentForCreateDto enrollmentDto);
         Task<bool> CheckToEnroll(Guid courseId, string studentId);
         Task<Course> GetCourseByIdToCheck(Guid courseId);
+        Task<List<EnrollmentDto>> GetEnrollementsToStudent(string studentId);
     }
 }

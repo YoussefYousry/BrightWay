@@ -18,8 +18,9 @@ namespace BrightWeb
             CreateMap<OnlineCourse, OnlineCourseDto>();
             CreateMap<OnlineCourseForCreationDto, OnlineCourse>();
             CreateMap<OnlineCourseForUpdateDto, OnlineCourse>();
-            CreateMap<EnrollmentDto, Course>(); // IMPORTANT
-            CreateMap<EnrollmentDto, Student>();
+            //CreateMap<EnrollmentDto, Course>(); // IMPORTANT
+            //CreateMap<EnrollmentDto, Student>();
+            CreateMap<OnDemandCourse, OnDemandCourseDto>();
             CreateMap<OnDemandCourse, OnDemandCourseDto>();
             CreateMap<OnDemandCourseForCreationDto, OnDemandCourse>();
             CreateMap<OnDemandCourseForUpdateDto, OnDemandCourse>();
@@ -33,6 +34,9 @@ namespace BrightWeb
             CreateMap<Package, PackageDto>();
             CreateMap<PackageForCreateDto, Package>();
             CreateMap<PackageForUpdateDto, Package>();
+
+            CreateMap<Enrollment, EnrollmentDto>();
+            CreateMap<EnrollmentForCreateDto, Enrollment>();
 
         }
     }

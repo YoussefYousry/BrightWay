@@ -73,6 +73,19 @@ namespace BrightWeb_BAL.Repositories
             await _context.SaveChangesAsync();
             await AddEnrollment(enrollment.CourseId);
         }
+        public async Task<List<EnrollmentDto>> GetEnrollementsToStudent(string studentId)
+        {
+            var enrollments = await _context.Enrollments
+                .Include(e=>e.Student)
+                .Include(c=>c.Course)
+                .Include(c=>c.Package)
+                .Where(s => s.StudentId == studentId)
+                .AsNoTracking()
+                .ProjectTo<EnrollmentDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+            return enrollments;
+
+        }
 
     }
 }
