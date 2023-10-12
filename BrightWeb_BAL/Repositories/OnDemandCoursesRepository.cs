@@ -76,21 +76,24 @@ namespace BrightWeb_BAL.Repositories
             return result;    
         }
         public async Task<List<OnDemandCourseViewModel>> GetCourses()
-         => await FindAll(false)
-            .Select(course => new OnDemandCourseViewModel
-             {
-             Name = course!.Name,
-             Description = course.Description,
-             Discount = course.Discount,
-             Enrollments = course.Enrollments,
-             HasDiscount = course.HasDiscount,
-             Hours = course.Hours,
-             Id = course.Id,
-             IntructorDescription = course.IntructorDescription,
-             ImageBytes = _filesManager.GetFileBytes(course.ImageUrl),
-             IntructorName = course.IntructorName,
-             IntructorImageBytes = _filesManager.GetFileBytes(course.IntructorImageUrl!),
-         }).ToListAsync();
+         => await FindAll(false).Include(c => c.Packages)
+                .ProjectTo<OnDemandCourseDto>(_mapper.ConfigurationProvider)
+                .Select(course => new OnDemandCourseViewModel
+                     {
+                     Name = course!.Name,
+                     Description = course.Description,
+                     Discount = course.Discount,
+                     Enrollments = course.Enrollments,
+                     HasDiscount = course.HasDiscount,
+                     Hours = course.Hours,
+                     Id = course.Id,
+                     IntructorDescription = course.IntructorDescription,
+                     ImageBytes = _filesManager.GetFileBytes(course.ImageUrl),
+                     IntructorName = course.IntructorName,
+                     IntructorImageBytes = _filesManager.GetFileBytes(course.IntructorImageUrl!),
+                    Packages = course.Packages,
+                    Sections = course.Sections,
+                }).ToListAsync();
         
     }
 }

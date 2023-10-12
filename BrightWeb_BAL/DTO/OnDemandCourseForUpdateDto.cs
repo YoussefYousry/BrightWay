@@ -8,10 +8,10 @@ namespace BrightWeb_BAL.DTO
 {
     public class OnDemandCourseForUpdateDto
     {
-        public Guid Id { get; set; }
+      //  public Guid Id { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
-        public string? Objectives { get; set; }
+      //  public string? Objectives { get; set; }
         public required double Price { get; set; }
         public double Discount { get; set; }
         public bool HasDiscount { get; set; }

@@ -75,7 +75,7 @@ namespace BrightWeb.Controllers
             {
                 return BadRequest(ModelState);
             }
-            _mapper.Map<Package>(packagedto);
+           _mapper.Map(package,packagedto);
             await _repositoryManager.SaveChangesAsync();
             return NoContent();
         }

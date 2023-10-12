@@ -140,7 +140,7 @@ namespace BrightWeb.Controllers
             {
                 return NotFound();
             }
-            FileStream file = await _repositoryManager.Products.GetProductFile(publicationId);
+            FileStream file = await _repositoryManager.Publications.GetPublicationFile(publicationId);
             return new FileStreamResult(file,"application/pdf");
         }
         [HttpGet("Publications")]

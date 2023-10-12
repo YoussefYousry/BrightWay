@@ -14,6 +14,7 @@ namespace BrightWeb_BAL.Contracts
         IProductsRepository Products { get; }
         IPublicationRepository Publications { get; }
         IPackageRepository Packages { get; }
+        ISectionRepository Sections { get; }
         Task SaveChangesAsync();
     }
 }
