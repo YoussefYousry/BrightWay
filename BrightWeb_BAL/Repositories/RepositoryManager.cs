@@ -47,7 +47,7 @@ namespace BrightWeb_BAL.Repositories
         {
             get
             {
-                _student ??= new StudentRepository(_context, _mapper);
+                _student ??= new StudentRepository(_context, _mapper,_filesManager);
                 return _student;
             }
         }

@@ -101,6 +101,12 @@ namespace BrightWeb_BAL.Repositories
            string url =  _filesManager.UploadFiles(file);
             product!.ImageUrl = url;
         }
+        public async Task<bool> IsAllowToProductFile(string studentId,int productId)
+          => await _appDbContext.Students
+            .Where(s=>s.Id == studentId)
+            .Include(s=>s.Products)
+            .AnyAsync(c=>c.Products.Any(p=>p.Id == productId));
+        
         public async Task<FileStream> GetProductFile(int prodId)
         {
             var fileName = await FindByCondition(p=>p.Id == prodId,false).Select(p=>p.FileUrl).FirstOrDefaultAsync();

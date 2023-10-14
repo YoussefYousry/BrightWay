@@ -66,7 +66,7 @@ namespace BrightWeb.Controllers
         [HttpPut("{packageId}")]
         public async Task<IActionResult> UpdatePackage(Guid packageId, [FromBody] PackageForUpdateDto packagedto)
         {
-            var package = await _repositoryManager.Packages.GetPackageByIdAsync(packageId, false);
+            var package = await _repositoryManager.Packages.GetPackageByIdAsync(packageId, true);
             if (package is null)
             {
                 return NotFound("Package Not Found");
@@ -75,7 +75,7 @@ namespace BrightWeb.Controllers
             {
                 return BadRequest(ModelState);
             }
-           _mapper.Map(package,packagedto);
+           _mapper.Map(packagedto, package);
             await _repositoryManager.SaveChangesAsync();
             return NoContent();
         }

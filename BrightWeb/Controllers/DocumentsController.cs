@@ -122,12 +122,17 @@ namespace BrightWeb.Controllers
             
         }
         [HttpGet("Product/GetFile/{productId}")]
-        public async Task<IActionResult> GetProductFile(int productId)
+        public async Task<IActionResult> GetProductFile(int productId,string studentId)
         {
             var product = await _repositoryManager.Products.GetProduct(productId);
             if(product is null)
             {
                 return NotFound();
+            }
+            bool isAllowed = await _repositoryManager.Products.IsAllowToProductFile(studentId,productId);
+            if(!isAllowed)
+            {
+                return BadRequest("you don't have the access to this file");
             }
             FileStream file = await _repositoryManager.Products.GetProductFile(productId);
             return new FileStreamResult(file,"application/pdf");

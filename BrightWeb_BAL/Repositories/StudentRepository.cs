@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using BrightWeb_BAL.Contracts;
 using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Data;
 using BrightWeb_DAL.Models;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +17,11 @@ namespace BrightWeb_BAL.Repositories
     public class StudentRepository : RepositoryBase<Student> , IStudentRepository
     {
         private readonly IMapper _mapper;
-        public StudentRepository(AppDbContext context , IMapper mapper):base(context)
+        private readonly IFilesManager _filesManager;
+        public StudentRepository(AppDbContext context , IMapper mapper, IFilesManager filesManager) : base(context)
         {
-               _mapper = mapper;
+            _mapper = mapper;
+            _filesManager = filesManager;
         }
         public void UpdateStudent(Student student) => Update(student);
         public void DeleteStudent(Student student) => Delete(student);
@@ -86,6 +89,21 @@ namespace BrightWeb_BAL.Repositories
             return enrollments;
 
         }
+         public async Task<List<DocumentViewModel>> GetProductsByStudentId(string studentId)
+                  => await _context.Products
+                                   .Include(c=>c.Students)
+                                   .Where(p=>p.Students.Any(s=>s.Id == studentId))
+                                   .Select(p => new DocumentViewModel
+                                   {
+                                       Description = p.Description,
+                                       Title = p.Title,
+                                       Id = p.Id,
+                                       Price = p.Price,
+                                       // FileBytes = _filesManager.GetFileBytes(p.FileUrl),
+                                       ImageBytes = _filesManager.GetFileBytes(p.ImageUrl)
+                                   })
+                                   .ToListAsync();
+        
 
     }
 }

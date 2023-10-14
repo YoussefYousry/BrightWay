@@ -1,4 +1,5 @@
 ﻿using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -20,5 +21,6 @@ namespace BrightWeb_BAL.Contracts
         Task<bool> CheckToEnroll(Guid courseId, string studentId);
         Task<Course> GetCourseByIdToCheck(Guid courseId);
         Task<List<EnrollmentDto>> GetEnrollementsToStudent(string studentId);
+        Task<List<DocumentViewModel>> GetProductsByStudentId(string studentId);
     }
 }
