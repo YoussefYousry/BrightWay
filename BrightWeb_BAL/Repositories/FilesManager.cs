@@ -1,4 +1,5 @@
 ﻿using BrightWeb_BAL.Contracts;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,11 @@ namespace BrightWeb_BAL.Repositories
 {
     public class FilesManager : IFilesManager
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public FilesManager(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
         public FileStream GetFile(string fileName)
         {
             var folderName = Path.Combine("Resources", "Media");
@@ -42,6 +48,29 @@ namespace BrightWeb_BAL.Repositories
                 return null;
             }
             
+        }
+        public string UploadFileByBytes(byte[] fileBytes, string fileName)
+        {
+            try
+            {
+                var folderName = Path.Combine("Resources", "Media");
+                if (!Directory.Exists(folderName))
+                {
+                    Directory.CreateDirectory(folderName);
+                }
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                var fullPath = Path.Combine(pathToSave, fileName);
+
+                File.WriteAllBytes(fullPath, fileBytes);
+
+                return fullPath;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log errors here
+                return null;
+            }
         }
         public string UploadFiles(IFormFile file)
         {

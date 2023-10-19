@@ -97,6 +97,10 @@ namespace BrightWeb.Extensions
             services.AddScoped<ISectionRepository, SectionRepository>();
             services.AddScoped<RepositoryBase<Section>, SectionRepository>();
 
+
+            services.AddScoped<IProjectsRepository, ProjectsRepository>();
+            services.AddScoped<RepositoryBase<Project>, ProjectsRepository>();
+
         }
     }
 }

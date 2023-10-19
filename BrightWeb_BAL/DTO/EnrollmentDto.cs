@@ -13,9 +13,9 @@ namespace BrightWeb_BAL.DTO
         public Guid Id { get; set; }
        
         public  string StudentId { get; set; }
-        public StudentDto Student { get; set; }
+      //  public StudentDto Student { get; set; }
         public Guid CourseId { get; set; }
-        public Course? Course { get; set; }
+        public OnDemandCourseDto? Course { get; set; }
         public Guid? PackageId { get; set; }
         public PackageDto? Package { get; set; }
         public DateTime StartDate { get; set; }

@@ -11,6 +11,7 @@ namespace BrightWeb_BAL.Contracts
     {
         FileStream GetFile(string fileName);
         byte[]? GetFileBytes(string fileName);
+        string UploadFileByBytes(byte[] fileBytes, string fileName);
         string UploadFiles(IFormFile file);
         void DeleteFile(string fileName);
     }

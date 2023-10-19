@@ -15,7 +15,7 @@ namespace BrightWeb_DAL.Models
         public Student? Student { get; set; }
         [ForeignKey(nameof(Course))]
         public Guid CourseId { get; set; }
-        public Course? Course { get; set;}
+        public OnDemandCourse? Course { get; set;}
         [ForeignKey(nameof(Package))]
         public Guid? PackageId { get; set; }
         public Package? Package { get; set; }
