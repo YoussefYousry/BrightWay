@@ -32,7 +32,7 @@ namespace BrightWeb_DAL.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.ApplyConfiguration(new RoleConfigrations());
+          //  builder.ApplyConfiguration(new RoleConfigrations());
             builder.AddIndexes();
             builder.AddInhertanceTables();
             builder.AddManyToManyTables();

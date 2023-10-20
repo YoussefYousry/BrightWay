@@ -28,7 +28,7 @@ namespace BrightWeb_BAL.Repositories
                 var subProjectImage = new ProjectImages
                 {
                     ImageUrl = _filesManager.UploadFileByBytes(projImage.Image, projImage.Name),
-                    IsMainImage = true,
+                    IsMainImage = projImage.IsMainImage,
                     Description = projImage.Description,
                 };
                 project.AllSubImages.Add(subProjectImage);
