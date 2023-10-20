@@ -47,7 +47,7 @@ namespace BrightWeb_BAL.Repositories
                     Id = s.Id,
                     Description = s.Description,
                     Image = _filesManager.GetFileBytes(s.ImageUrl)!,
-                    IsMainImage= true,
+                    IsMainImage= s.IsMainImage,
                     
 
                 }).ToList(),
@@ -64,7 +64,7 @@ namespace BrightWeb_BAL.Repositories
                     Id = s.Id,
                     Description = s.Description,
                     Image = _filesManager.GetFileBytes(s.ImageUrl)!,
-                    IsMainImage = true,
+                    IsMainImage = s.IsMainImage,
 
 
                 }).ToList(),
