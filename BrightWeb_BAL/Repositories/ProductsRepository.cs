@@ -89,11 +89,12 @@ namespace BrightWeb_BAL.Repositories
           => await FindByCondition(p=>p.Id == id,trackChanges:true).FirstOrDefaultAsync();
         public void DeleteProduct(Product product) => Delete(product);
 
-        public async Task UploadFile(int productId,IFormFile file)
+        public async Task UploadFile(int productId, FileToUploadViewModel file)
         {
             var product = await _appDbContext.Products.FirstOrDefaultAsync(p=>p.Id == productId);
-           string url =  _filesManager.UploadFiles(file);
+           string url =  _filesManager.UploadFiles(file.File);
             product!.FileUrl = url;
+            product.TypeOfFile = file.Type;
         }
         public async Task UploadImage(int productId,IFormFile file)
         {
@@ -106,12 +107,18 @@ namespace BrightWeb_BAL.Repositories
             .Where(s=>s.Id == studentId)
             .Include(s=>s.Products)
             .AnyAsync(c=>c.Products.Any(p=>p.Id == productId));
-        
-        public async Task<FileStream> GetProductFile(int prodId)
+
+        public async Task<FileViewModel> GetProductFile(int prodId)
         {
-            var fileName = await FindByCondition(p=>p.Id == prodId,false).Select(p=>p.FileUrl).FirstOrDefaultAsync();
-           FileStream file = _filesManager.GetFile(fileName!);
-            return file;
+            var fileName = await FindByCondition(p => p.Id == prodId, false).Select(p => new{ p.FileUrl, p.TypeOfFile}).FirstOrDefaultAsync();
+           FileStream file = _filesManager.GetFile(fileName.FileUrl!);
+            
+
+            return new FileViewModel
+            {
+                File = file,
+                TypeOfFile = fileName.TypeOfFile,
+            };
         }
     }
 }

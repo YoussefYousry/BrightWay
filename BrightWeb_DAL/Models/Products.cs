@@ -11,6 +11,7 @@ namespace BrightWeb_DAL.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string FileUrl { get; set; } = "NotFound";
+        public TypeOfFile TypeOfFile { get; set; }
         public string? Description { get; set; }
         public double Price { get; set; }
         public string ImageUrl { get; set; } = "NotFound";
@@ -19,5 +20,12 @@ namespace BrightWeb_DAL.Models
             Students = new HashSet<Student>();
         }
 
+    }
+    public enum TypeOfFile
+    {
+        PDF,
+        Excel,
+        Word,
+        PowerPoint
     }
 }

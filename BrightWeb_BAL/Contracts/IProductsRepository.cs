@@ -20,11 +20,11 @@ namespace BrightWeb_BAL.Contracts
         Task<Product> CreateProduct(ProductForCreateDto productDto);
         Task<Product?> GetProduct(int id);
        void DeleteProduct(Product product);
-        Task UploadFile(int productId, IFormFile file);
+        Task UploadFile(int productId, FileToUploadViewModel file);
         Task UploadImage(int productId, IFormFile file);
         Task AddProductToStudent(int productId, string studentId);
         Task<bool> IsAllowToProductFile(string studentId, int productId);
-        Task<FileStream> GetProductFile(int prodId);
+        Task<FileViewModel> GetProductFile(int prodId);
 
     }
 }

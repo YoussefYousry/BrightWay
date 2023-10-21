@@ -83,7 +83,7 @@ namespace BrightWeb.Controllers
         {
             try
             {
-                await _repositoryManager.Products.UploadFile(productId, fileVM.File);
+                await _repositoryManager.Products.UploadFile(productId, fileVM);
                 await _repositoryManager.SaveChangesAsync();
                 return StatusCode(201);
             }catch(Exception ex)
@@ -134,8 +134,25 @@ namespace BrightWeb.Controllers
             {
                 return BadRequest("you don't have the access to this file");
             }
-            FileStream file = await _repositoryManager.Products.GetProductFile(productId);
-            return new FileStreamResult(file,"application/pdf");
+            var fileViewModel = (await _repositoryManager.Products.GetProductFile(productId));
+            if(fileViewModel.TypeOfFile == BrightWeb_DAL.Models.TypeOfFile.PDF)
+            {
+                return new FileStreamResult(fileViewModel.File, "application/pdf");
+            }
+            else if(fileViewModel.TypeOfFile == BrightWeb_DAL.Models.TypeOfFile.Excel)
+            {
+                return new FileStreamResult(fileViewModel.File, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            }
+            else if(fileViewModel.TypeOfFile == BrightWeb_DAL.Models.TypeOfFile.Word)
+            {
+                return new FileStreamResult(fileViewModel.File, "application/msword");
+            }
+            else if(fileViewModel.TypeOfFile == BrightWeb_DAL.Models.TypeOfFile.PowerPoint)
+            {
+                return new FileStreamResult(fileViewModel.File, "application/vnd.ms-powerpoint");
+            }
+             return new FileStreamResult(fileViewModel.File, "application/pdf");
+
         } 
         [HttpGet("Publication/GetFile/{publicationId}")]
         public async Task<IActionResult> GetPublicationFile(int publicationId)
