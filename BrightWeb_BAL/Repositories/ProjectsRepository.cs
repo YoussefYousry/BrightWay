@@ -99,12 +99,16 @@ namespace BrightWeb_BAL.Repositories
                 }
                 catch (Exception ex)
                 {
-                    // If an error occurs, roll back the transaction.
                     await transaction.RollbackAsync();
-                    throw; // Rethrow the exception to handle it higher up the call stack.
+                    
                 }
             }
 
+        }
+        public async Task Delete(int projectId)
+        {
+            var result2 = await _appDbContext.Database.ExecuteSqlRawAsync($"delete from ProjectImages where ProjectId= {projectId}");
+            var result = await _appDbContext.Database.ExecuteSqlRawAsync($"delete from Projects where Id= {projectId}");
         }
     }
 }

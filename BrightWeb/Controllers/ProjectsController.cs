@@ -41,6 +41,18 @@ namespace BrightWeb.Controllers
             await _projectsRepository.Update(projectForCreateView);
             return NoContent();
         }
+        [HttpDelete("{projectId}")]
+        public async Task<IActionResult> DeleteProject(int projectId)
+        {
+            try
+            {
+                await _projectsRepository.Delete(projectId);
+                return NoContent();
+            }catch(Exception ex)
+            {
+                return StatusCode(500,ex.Message);
+            }
+        }
 
     }
 }
