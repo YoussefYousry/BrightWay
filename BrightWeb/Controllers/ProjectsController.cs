@@ -35,6 +35,12 @@ namespace BrightWeb.Controllers
             await _projectsRepository.CreateProject(projectForCreateView);
             return StatusCode(201);
         }
+        [HttpPut]
+        public async Task<IActionResult> UpdateProject([FromBody] ProjectForCreateViewModel projectForCreateView)
+        {
+            await _projectsRepository.Update(projectForCreateView);
+            return NoContent();
+        }
 
     }
 }

@@ -12,5 +12,6 @@ namespace BrightWeb_BAL.Contracts
         Task CreateProject(ProjectForCreateViewModel projectForCreateView);
         Task<List<ProjectForCreateViewModel>> GetProjects();
         Task<ProjectForCreateViewModel?> GetProject(int projectId);
+        Task Update(ProjectForCreateViewModel projectForCreateView);
     }
 }

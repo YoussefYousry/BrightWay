@@ -25,6 +25,7 @@ namespace BrightWeb_BAL.Repositories
             var project = new Project { Name = projectForCreateView.Name};
             foreach (var projImage in projectForCreateView.AllSubImages)
             {
+                
                 var subProjectImage = new ProjectImages
                 {
                     ImageUrl = _filesManager.UploadFileByBytes(projImage.Image, projImage.Name),
@@ -70,6 +71,38 @@ namespace BrightWeb_BAL.Repositories
                 }).ToList(),
 
             }).FirstOrDefaultAsync();
+        }
+        public async Task Update(ProjectForCreateViewModel projectForCreateView)
+        {
+
+            using (var transaction = await _appDbContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var projectImages = _appDbContext.ProjectImages.Where(p=>p.Id == projectForCreateView.Id).Select(p=>p.ImageUrl);
+                    foreach(var img in projectImages)
+                    {
+                         _filesManager.DeleteFile(img);
+                    }
+                    var result2 = await _appDbContext.Database.ExecuteSqlRawAsync($"delete from ProjectImages where ProjectId= {projectForCreateView.Id}");
+                    var result = await _appDbContext.Database.ExecuteSqlRawAsync($"delete from Projects where Id= {projectForCreateView.Id}");
+                   
+
+                    // At this point, the SQL delete statements have been executed.
+
+                    await CreateProject(projectForCreateView);
+
+                    // If everything is successful, commit the transaction.
+                    await transaction.CommitAsync();
+                }
+                catch (Exception ex)
+                {
+                    // If an error occurs, roll back the transaction.
+                    await transaction.RollbackAsync();
+                    throw; // Rethrow the exception to handle it higher up the call stack.
+                }
+            }
+
         }
     }
 }
