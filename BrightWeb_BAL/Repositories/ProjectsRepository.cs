@@ -42,6 +42,7 @@ namespace BrightWeb_BAL.Repositories
         {
             return await FindAll(false).Select(p=>new ProjectForCreateViewModel
             {
+                Id = p.Id,
                 Name = p.Name,
                 AllSubImages = _appDbContext.ProjectImages.Where(c=>c.ProjectId == p.Id).Select(s=>new ProjectImageForCreate
                 {
@@ -59,6 +60,7 @@ namespace BrightWeb_BAL.Repositories
         {
             return await FindByCondition(p=>p.Id == projectId,false).Select(p => new ProjectForCreateViewModel
             {
+                Id= p.Id,
                 Name = p.Name,
                 AllSubImages = _appDbContext.ProjectImages.Where(c => c.ProjectId == p.Id).Select(s => new ProjectImageForCreate
                 {
