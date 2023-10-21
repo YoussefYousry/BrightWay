@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BrightWeb_BAL.Contracts;
 using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.RequestFeature;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -26,9 +27,9 @@ namespace BrightWeb.Controllers
         }
         [HttpGet]
         //[Authorize(Roles = "Student,Admin")]
-        public async Task<IActionResult> GetAllStudents()
+        public async Task<IActionResult> GetAllStudents([FromQuery] StudentParamters paramters)
         {
-            var student = await _repositoryManager.Student.GetAllStudentsAsync(trackChanges:false);
+            var student = await _repositoryManager.Student.GetAllStudentsAsync(paramters,trackChanges:false);
             if (student is null)
             {
                 return NotFound("There are no students in the database");

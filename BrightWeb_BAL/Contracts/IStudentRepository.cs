@@ -1,4 +1,5 @@
 ﻿using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.RequestFeature;
 using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Models;
 using System;
@@ -15,7 +16,7 @@ namespace BrightWeb_BAL.Contracts
         void DeleteStudent(Student student);
         Task<StudentDto?> GetStudentByIdAsync(string studentId, bool trackChanges);
         Task<Student?> GetSingleStudentByIdAsync(string studentId, bool trackChanges);
-        Task<IEnumerable<StudentDto?>> GetAllStudentsAsync(bool trackChanges);
+        Task<IEnumerable<StudentDto?>> GetAllStudentsAsync(StudentParamters paramters, bool trackChanges);
         Task<IEnumerable<StudentDto>> GetAllStudentsEnrolledInCourseAsync(Guid courseId, bool trackChanges);
         Task EnrollInCourse(EnrollmentForCreateDto enrollmentDto);
         Task<bool> CheckToEnroll(Guid courseId, string studentId);

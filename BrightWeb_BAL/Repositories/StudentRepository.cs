@@ -2,6 +2,8 @@
 using AutoMapper.QueryableExtensions;
 using BrightWeb_BAL.Contracts;
 using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.Extentions;
+using BrightWeb_BAL.RequestFeature;
 using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Data;
 using BrightWeb_DAL.Models;
@@ -34,8 +36,11 @@ namespace BrightWeb_BAL.Repositories
             => await FindByCondition(e => e.Id == studentId, trackChanges)
             .FirstOrDefaultAsync();
 
-        public async Task<IEnumerable<StudentDto?>> GetAllStudentsAsync(bool trackChanges)
+        public async Task<IEnumerable<StudentDto?>> GetAllStudentsAsync(StudentParamters paramters,bool trackChanges)
             => await FindAll(trackChanges: false)
+            .Search(paramters.SearchTerm)
+            .Skip((paramters.PageNumber - 1) * paramters.PageSize)
+            .Take(paramters.PageSize)
             .ProjectTo<StudentDto>(_mapper.ConfigurationProvider)
             .OrderBy(e => e.FirstName)
             .ToListAsync();
