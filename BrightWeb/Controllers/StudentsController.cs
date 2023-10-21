@@ -81,20 +81,6 @@ namespace BrightWeb.Controllers
             await _repositoryManager.SaveChangesAsync();
             return NoContent();
         }
-        //[HttpGet("Courses/{studentId}")]
-        ////[Authorize(Roles = "Student,Admin")]
-        //public async Task<IActionResult> GetStudentEnrolledCourses(string studentId)
-        //{
-        //    var student = await _repositoryManager.Student.GetStudentByIdAsync(studentId, trackChanges: false);
-        //    if (student is null)
-        //    {
-        //        return NotFound($"Student with ID: {studentId} doesn't exist in the database ");
-        //    }
-        //    var course = await _repositoryManager.Course.GetAllCoursesForStudentAsync(studentId, trackChanges: false);
-        //    var courseDto = _mapper.Map<IEnumerable<OnlineCourseDto>>(course);
-        //    return Ok(courseDto);
-
-        //}
         [HttpGet("CheckEnrollment/{courseId}/{studentId}")]
         //[Authorize(Roles = "Student,Admin")]
         public async Task<IActionResult> CheckEnrollement(Guid courseId, string studentId)
