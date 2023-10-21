@@ -57,7 +57,7 @@ namespace BrightWeb_BAL.Repositories
         }
         public async Task<ProjectForCreateViewModel?> GetProject(int projectId)
         {
-            return await FindAll(false).Select(p => new ProjectForCreateViewModel
+            return await FindByCondition(p=>p.Id == projectId,false).Select(p => new ProjectForCreateViewModel
             {
                 Name = p.Name,
                 AllSubImages = _appDbContext.ProjectImages.Where(c => c.ProjectId == p.Id).Select(s => new ProjectImageForCreate
@@ -86,8 +86,8 @@ namespace BrightWeb_BAL.Repositories
                     }
                     var result2 = await _appDbContext.Database.ExecuteSqlRawAsync($"delete from ProjectImages where ProjectId= {projectForCreateView.Id}");
                     var result = await _appDbContext.Database.ExecuteSqlRawAsync($"delete from Projects where Id= {projectForCreateView.Id}");
-                   
 
+                    projectForCreateView.Id = 0;
                     // At this point, the SQL delete statements have been executed.
 
                     await CreateProject(projectForCreateView);
