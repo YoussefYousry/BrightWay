@@ -1,4 +1,5 @@
-﻿using BrightWeb_BAL.ViewModels;
+﻿using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -20,5 +21,6 @@ namespace BrightWeb_BAL.Contracts
         Task<double> CalculateFinalPrice(Guid courseId);
         Task<OnDemandCourseViewModel?> GetCourse(Guid courseId);
         Task<List<OnDemandCourseViewModel>> GetCourses();
+        Task AddDiscount(DiscountDto discount);
     }
 }

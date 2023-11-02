@@ -1,4 +1,5 @@
 ﻿using BrightWeb_BAL.Contracts;
+using BrightWeb_BAL.DTO;
 using BrightWeb_DAL.Data;
 using BrightWeb_DAL.Models;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,11 @@ namespace BrightWeb_BAL.Repositories
                 return course.DefaultPrice - discountAmount;
             }
             return course.DefaultPrice;
+        }
+        public async Task AddDiscount(DiscountDto discount)
+        {
+            await _context.Database
+                          .ExecuteSqlRawAsync($"Update OnlineCourses SET HasDiscount = 1 , Discount = {discount.DiscountPercentage} WHERE Id = {discount.CourseId} ");
         }
     }
 }

@@ -147,6 +147,13 @@ namespace BrightWeb.Controllers
             }
             return Ok(result);
         }
+        [HttpPut("AddDiscount")]
+        public async Task<IActionResult> AddDiscount([FromBody] DiscountDto discountDto)
+        {
+            await _repositoryManager.OnDemandCourse.AddDiscount(discountDto);
+            await _repositoryManager.SaveChangesAsync();
+            return NoContent();
+        }
     }
 
 }

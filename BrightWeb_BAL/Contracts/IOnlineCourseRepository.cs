@@ -1,4 +1,5 @@
-﻿using BrightWeb_DAL.Models;
+﻿using BrightWeb_BAL.DTO;
+using BrightWeb_DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace BrightWeb_BAL.Contracts
         Task<IEnumerable<OnlineCourse?>> GetAllCoursesForStudentAsync(string studentId, bool trackChanges);
         Task<IEnumerable<OnlineCourse?>> GetDiscountCourses();
         Task<double> CalculateFinalPrice(Guid courseId);
+        Task AddDiscount(DiscountDto discount);
     }
 }

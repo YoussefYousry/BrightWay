@@ -94,6 +94,11 @@ namespace BrightWeb_BAL.Repositories
                     Packages = course.Packages,
                     Sections = course.Sections,
                 }).ToListAsync();
+        public async Task AddDiscount(DiscountDto discount)
+        {
+            await _context.Database
+                          .ExecuteSqlRawAsync($"Update OnDemandCourses SET HasDiscount = 1 , Discount = {discount.DiscountPercentage} WHERE Id = {discount.CourseId} ");
+        }
         
     }
 }
