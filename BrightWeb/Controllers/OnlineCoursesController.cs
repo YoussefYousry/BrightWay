@@ -31,13 +31,13 @@ namespace BrightWeb.Controllers
                 return NotFound("There are no courses in the database");
             }
             var courseDto = _mapper.Map<IEnumerable<OnlineCourseDto>>(courses);
-            foreach (var course in courseDto)
-            {
-                if (course.HasDiscount)
-                {
-                    course.Price = await _repositoryManager.OnlineCourse.CalculateFinalPrice(course.Id);
-                }
-            }
+            //foreach (var course in courseDto)
+            //{
+            //    if (course.HasDiscount)
+            //    {
+            //        course.Price = await _repositoryManager.OnlineCourse.CalculateFinalPrice(course.Id);
+            //    }
+            //}
             return Ok(courseDto);
         }
         [HttpGet("Discount")]
@@ -48,11 +48,11 @@ namespace BrightWeb.Controllers
             if (courses is null)
                 return NotFound("There are no discounted courses in the database");
             var courseDto = _mapper.Map<IEnumerable<OnlineCourseDto>>(courses);
-            foreach (var course in courseDto)
-            {
-                if (course.HasDiscount)
-                    course.Price = await _repositoryManager.OnlineCourse.CalculateFinalPrice(course.Id);
-            }
+            //foreach (var course in courseDto)
+            //{
+            //    if (course.HasDiscount)
+            //        course.Price = await _repositoryManager.OnlineCourse.CalculateFinalPrice(course.Id);
+            //}
             return Ok(courseDto);
         }
         [HttpPost]
@@ -82,8 +82,8 @@ namespace BrightWeb.Controllers
                 return NotFound($"Course with ID: {courseId} doesn't exist in the database ");
             }
             var courseDto = _mapper.Map<OnlineCourseDto>(course);
-            if (courseDto.HasDiscount)
-                courseDto.Price = await _repositoryManager.OnlineCourse.CalculateFinalPrice(course.Id);
+            //if (courseDto.HasDiscount)
+            //    courseDto.Price = await _repositoryManager.OnlineCourse.CalculateFinalPrice(course.Id);
             return Ok(courseDto);
         }
         //[Authorize(Roles = "Admin")]
