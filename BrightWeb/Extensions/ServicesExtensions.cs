@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Identity.Web;
+using BrightWeb_BAL.Services;
 
 namespace BrightWeb.Extensions
 {
@@ -100,6 +101,8 @@ namespace BrightWeb.Extensions
 
             services.AddScoped<IProjectsRepository, ProjectsRepository>();
             services.AddScoped<RepositoryBase<Project>, ProjectsRepository>();
+
+            services.AddSingleton<YouTubeService>();
 
         }
     }

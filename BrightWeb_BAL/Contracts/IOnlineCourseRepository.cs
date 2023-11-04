@@ -1,5 +1,6 @@
 ﻿using BrightWeb_BAL.DTO;
 using BrightWeb_DAL.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,7 @@ namespace BrightWeb_BAL.Contracts
         Task<IEnumerable<OnlineCourse?>> GetDiscountCourses();
         Task<double> CalculateFinalPrice(Guid courseId);
         Task AddDiscount(DiscountDto discount);
+        Task UploadImage(Guid courseId, IFormFile file);
+        Task UploadInstructorImage(Guid courseId, IFormFile file);
     }
 }

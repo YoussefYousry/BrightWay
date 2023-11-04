@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BrightWeb_BAL.Contracts;
 using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.Services;
+using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,12 +18,14 @@ namespace BrightWeb.Controllers
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
+        private YouTubeService _youTubeService;
 
         public OnDemandCoursesController(
-                 IRepositoryManager repository, IMapper mapper)
+                 IRepositoryManager repository, IMapper mapper,YouTubeService youTubeService)
         {
             _repositoryManager = repository;
             _mapper = mapper;
+            _youTubeService = youTubeService;
         }
         [HttpGet]
         //[Authorize(Roles = "Student,Admin")]
@@ -153,6 +157,43 @@ namespace BrightWeb.Controllers
             await _repositoryManager.OnDemandCourse.AddDiscount(discountDto);
             await _repositoryManager.SaveChangesAsync();
             return NoContent();
+        }
+
+        [HttpPost("UploadCourseImage/{courseId}")]
+        public async Task<IActionResult> UploadCourseImage(Guid courseId, [FromForm] FileToUploadViewModel fileVM)
+        {
+            try
+            {
+                await _repositoryManager.OnDemandCourse.UploadImage(courseId, fileVM.File);
+                await _repositoryManager.SaveChangesAsync();
+                return StatusCode(201);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+        [HttpPost("UploadInstructorImage/{courseId}")]
+        public async Task<IActionResult> UploadInstructorImage(Guid courseId, [FromForm] FileToUploadViewModel fileVM)
+        {
+            try
+            {
+                await _repositoryManager.OnDemandCourse.UploadInstructorImage(courseId, fileVM.File);
+                await _repositoryManager.SaveChangesAsync();
+                return StatusCode(201);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+        [HttpGet("GetVideo")]
+        public async Task<IActionResult> GetVideo(string videoId)
+        {
+            var video = await _youTubeService.GetVideoDetails(videoId);
+            return Ok(video);
         }
     }
 

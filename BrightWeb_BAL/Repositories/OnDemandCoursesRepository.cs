@@ -5,6 +5,7 @@ using BrightWeb_BAL.DTO;
 using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Data;
 using BrightWeb_DAL.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -99,6 +100,18 @@ namespace BrightWeb_BAL.Repositories
             await _context.Database
                           .ExecuteSqlRawAsync($"Update OnDemandCourses SET HasDiscount = 1 , Discount = {discount.DiscountPercentage} WHERE Id = {discount.CourseId} ");
         }
-        
+        public async Task UploadImage(Guid courseId, IFormFile file)
+        {
+            var course = await _context.OnDemandCourses.FirstOrDefaultAsync(p => p.Id == courseId);
+            string url = _filesManager.UploadFiles(file);
+            course!.ImageUrl = url;
+        }
+        public async Task UploadInstructorImage(Guid courseId, IFormFile file)
+        {
+            var course = await _context.OnDemandCourses.FirstOrDefaultAsync(p => p.Id == courseId);
+            string url = _filesManager.UploadFiles(file);
+            course!.IntructorImageUrl = url;
+        }
+
     }
 }

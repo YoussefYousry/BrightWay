@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BrightWeb_BAL.Contracts;
 using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -138,6 +139,35 @@ namespace BrightWeb.Controllers
             await _repositoryManager.SaveChangesAsync();
             return NoContent();
         }
+        [HttpPost("UploadCourseImage/{courseId}")]
+        public async Task<IActionResult> UploadCourseImage(Guid courseId, [FromForm] FileToUploadViewModel fileVM)
+        {
+            try
+            {
+                await _repositoryManager.OnlineCourse.UploadImage(courseId, fileVM.File);
+                await _repositoryManager.SaveChangesAsync();
+                return StatusCode(201);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
 
+        }
+        [HttpPost("UploadInstructorImage/{courseId}")]
+        public async Task<IActionResult> UploadInstructorImage(Guid courseId, [FromForm] FileToUploadViewModel fileVM)
+        {
+            try
+            {
+                await _repositoryManager.OnlineCourse.UploadInstructorImage(courseId, fileVM.File);
+                await _repositoryManager.SaveChangesAsync();
+                return StatusCode(201);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
     }
 }

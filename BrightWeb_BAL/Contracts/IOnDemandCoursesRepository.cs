@@ -1,6 +1,7 @@
 ﻿using BrightWeb_BAL.DTO;
 using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,7 @@ namespace BrightWeb_BAL.Contracts
         Task<OnDemandCourseViewModel?> GetCourse(Guid courseId);
         Task<List<OnDemandCourseViewModel>> GetCourses();
         Task AddDiscount(DiscountDto discount);
+        Task UploadImage(Guid courseId, IFormFile file);
+        Task UploadInstructorImage(Guid courseId, IFormFile file);
     }
 }

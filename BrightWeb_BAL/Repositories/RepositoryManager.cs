@@ -55,7 +55,7 @@ namespace BrightWeb_BAL.Repositories
         {
             get
             {
-                _onlineCourse ??= new OnlineCourseRepository(_context);
+                _onlineCourse ??= new OnlineCourseRepository(_context,_filesManager);
                 return _onlineCourse;
             }
         }

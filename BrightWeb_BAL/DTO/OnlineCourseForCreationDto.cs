@@ -13,7 +13,7 @@ namespace BrightWeb_BAL.DTO
         public required string Name { get; set; }
         public string? Description { get; set; }
         public string? Objectives { get; set; }
-        public required double Price { get; set; }
+        public required double DefaultPrice { get; set; }
         public bool HasDiscount { get; set; }
         public double Discount { get; set; }
         public required string Hours { get; set; }

@@ -35,7 +35,10 @@ builder.Services.ConfigureIdentity<User>();
 builder.Services.ConfigureIdentity<Student>();
 builder.Services.ConfigureJwt(builder.Configuration);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
+builder.Services.AddHttpClient("YouTubeAPI", client =>
+{
+    client.BaseAddress = new Uri("https://www.googleapis.com/youtube/v3/");
+});
 
 builder.Services.AddControllers().AddJsonOptions(
   opt =>
