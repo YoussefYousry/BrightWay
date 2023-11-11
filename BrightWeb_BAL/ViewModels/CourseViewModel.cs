@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BrightWeb_BAL.ViewModels
 {
-    public class OnDemandCourseViewModel
+    public class CourseViewModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

@@ -1,4 +1,5 @@
 ﻿using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Models;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -22,5 +23,7 @@ namespace BrightWeb_BAL.Contracts
         Task AddDiscount(DiscountDto discount);
         Task UploadImage(Guid courseId, IFormFile file);
         Task UploadInstructorImage(Guid courseId, IFormFile file);
+        Task<CourseViewModel?> GetCourse(Guid courseId);
+        Task<List<CourseViewModel>> GetCourses();
     }
 }

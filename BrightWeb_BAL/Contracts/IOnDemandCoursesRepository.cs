@@ -20,8 +20,8 @@ namespace BrightWeb_BAL.Contracts
         Task<IEnumerable<OnDemandCourse?>> GetAllCoursesForStudentAsync(string studentId, bool trackChanges);
         Task<IEnumerable<OnDemandCourse?>> GetDiscountCourses();
         Task<double> CalculateFinalPrice(Guid courseId);
-        Task<OnDemandCourseViewModel?> GetCourse(Guid courseId);
-        Task<List<OnDemandCourseViewModel>> GetCourses();
+        Task<CourseViewModel?> GetCourse(Guid courseId);
+        Task<List<CourseViewModel>> GetCourses();
         Task AddDiscount(DiscountDto discount);
         Task UploadImage(Guid courseId, IFormFile file);
         Task UploadInstructorImage(Guid courseId, IFormFile file);

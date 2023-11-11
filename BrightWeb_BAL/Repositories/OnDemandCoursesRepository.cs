@@ -53,11 +53,11 @@ namespace BrightWeb_BAL.Repositories
             }
             return course.DefaultPrice;
         }
-        public async Task<OnDemandCourseViewModel?> GetCourse(Guid courseId)
+        public async Task<CourseViewModel?> GetCourse(Guid courseId)
         {
             var course = await FindByCondition(c => c.Id == courseId, false).Include(c => c.Packages)
                 .ProjectTo<OnDemandCourseDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
-            var result = new OnDemandCourseViewModel
+            var result = new CourseViewModel
             {
                 Name = course!.Name,
                 Description = course.Description,
@@ -76,10 +76,10 @@ namespace BrightWeb_BAL.Repositories
             };
             return result;    
         }
-        public async Task<List<OnDemandCourseViewModel>> GetCourses()
+        public async Task<List<CourseViewModel>> GetCourses()
          => await FindAll(false).Include(c => c.Packages)
                 .ProjectTo<OnDemandCourseDto>(_mapper.ConfigurationProvider)
-                .Select(course => new OnDemandCourseViewModel
+                .Select(course => new CourseViewModel
                      {
                      Name = course!.Name,
                      Description = course.Description,

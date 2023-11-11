@@ -169,5 +169,22 @@ namespace BrightWeb.Controllers
             }
 
         }
+
+        [HttpGet("GetAllOnlineCourses")]
+        public async Task<IActionResult> GetAllOnDemandCourses()
+        {
+            var result = await _repositoryManager.OnDemandCourse.GetCourses();
+            return Ok(result);
+        }
+        [HttpGet("GetSingleCourse/{courseId}")]
+        public async Task<IActionResult> GetSingleCourse(Guid courseId)
+        {
+            var result = await _repositoryManager.OnDemandCourse.GetCourse(courseId);
+            if (result is null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BrightWeb_BAL.Contracts;
 using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Data;
 using BrightWeb_DAL.Models;
 using Microsoft.AspNetCore.Http;
@@ -64,5 +65,45 @@ namespace BrightWeb_BAL.Repositories
             string url = _filesManager.UploadFiles(file);
             course!.IntructorImageUrl = url;
         }
+
+        public async Task<CourseViewModel?> GetCourse(Guid courseId)
+        {
+            var course = await FindByCondition(c => c.Id == courseId, false).FirstOrDefaultAsync();
+            var result = new CourseViewModel
+            {
+                Name = course!.Name,
+                Description = course.Description,
+                DefaultPrice = course.DefaultPrice,
+                Discount = course.Discount,
+                Enrollments = course.Enrollments,
+                HasDiscount = course.HasDiscount,
+                Hours = course.Hours,
+                Id = course.Id,
+                IntructorDescription = course.IntructorDescription,
+                ImageBytes = _filesManager.GetFileBytes(course.ImageUrl),
+                IntructorName = course.IntructorName,
+                IntructorImageBytes = _filesManager.GetFileBytes(course.IntructorImageUrl!),
+
+            };
+            return result;
+        }
+        public async Task<List<CourseViewModel>> GetCourses()
+         => await FindAll(false)
+                .Select(course => new CourseViewModel
+            {
+                Name = course!.Name,
+                Description = course.Description,
+                DefaultPrice = course.DefaultPrice,
+                Discount = course.Discount,
+                Enrollments = course.Enrollments,
+                HasDiscount = course.HasDiscount,
+                Hours = course.Hours,
+                Id = course.Id,
+                IntructorDescription = course.IntructorDescription,
+                ImageBytes = _filesManager.GetFileBytes(course.ImageUrl),
+                IntructorName = course.IntructorName,
+                IntructorImageBytes = _filesManager.GetFileBytes(course.IntructorImageUrl!),
+
+            }).ToListAsync();
     }
 }
