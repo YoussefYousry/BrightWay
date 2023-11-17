@@ -1,5 +1,6 @@
 ﻿using BrightWeb_BAL.Contracts;
 using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -59,6 +60,45 @@ namespace BrightWeb.Controllers
             _repositoryManager.Sections.DeleteSection(section);
             await _repositoryManager.SaveChangesAsync();
             return NoContent();
-        }        
-    }
+        }
+        [HttpPost("AddVideoToSection")]
+        public async Task<IActionResult> AddVideoToSection([FromBody] VideoViewModel video)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            await _repositoryManager.Sections.AddVideoToSection(video);
+            return StatusCode(201);
+        }
+        [HttpPut("UpdateVideo")]
+        public async Task<IActionResult> UpdateVideo([FromBody] VideoViewModel video)
+        {
+            if(!ModelState.IsValid)
+            {
+                BadRequest();
+            }
+            await _repositoryManager.Sections.UpdateVideo(video);
+            return NoContent();
+        }
+        [HttpDelete("DeleteVideo/{videoId}")]
+        public async Task<IActionResult> DeleteVideo(int videoId)
+        {
+            await _repositoryManager.Sections.DeleteVideo(videoId);
+            return NoContent();
+        }
+        [HttpGet("GetVideosToSection/{sectionId}")]
+        public async Task<IActionResult> GetVideosToSection(Guid sectionId)
+        {
+            var videos = await _repositoryManager.Sections.GetVideosToSection(sectionId);
+            return Ok(videos);
+        }
+        [HttpGet("GetSingleVideoToSecion/videoId")]
+        public async Task<IActionResult> GetSingleVideoToSecion(int videoId)
+        {
+            var video = await _repositoryManager.Sections.GetSingleVideoToSection(videoId);
+            return Ok(video);
+        }
+
+	}
 }

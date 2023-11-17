@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using BrightWeb_BAL.Contracts;
 using BrightWeb_BAL.DTO;
+using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Data;
 using BrightWeb_DAL.Models;
 using Microsoft.EntityFrameworkCore;
@@ -39,7 +40,53 @@ namespace BrightWeb_BAL.Repositories
             section!.Name = newName;
 
         }
-
+        public async Task AddVideoToSection(VideoViewModel videoVM )
+        {
+            var video = new Video
+            {
+                Title = videoVM.Title,
+                SectionId = videoVM.SectionId,
+                VideoUrl = videoVM.VideoUrl,
+            };
+            await _appDbContext.Videos.AddAsync(video);
+            await _appDbContext.SaveChangesAsync();
+        }
+        public async Task<List<VideoViewModel>> GetVideosToSection(Guid sectionId)
+        {
+            return await _appDbContext.Videos.AsNoTracking().Where(c=>c.SectionId == sectionId).Select(c=>new VideoViewModel
+            {
+                Title=c.Title,
+                SectionId = c.SectionId,
+                Id = c.Id,
+                VideoUrl = c.VideoUrl,
+               
+            }).ToListAsync();
+        }
+           public async Task<VideoViewModel?> GetSingleVideoToSection(int videoId)
+            {
+                return await _appDbContext.Videos.AsNoTracking().Where(c=>c.Id == videoId).Select(c=>new VideoViewModel
+                {
+                    Title=c.Title,
+                    SectionId = c.SectionId,
+                    Id = c.Id,
+                    VideoUrl = c.VideoUrl,
+               
+                }).FirstOrDefaultAsync();
+            }
+        public async Task DeleteVideo(int videoId)
+        {
+            var video = await _appDbContext.Videos.FirstOrDefaultAsync(v => v.Id == videoId);
+            _appDbContext.Videos.Remove(video);
+            await _appDbContext.SaveChangesAsync();
+        }
+        public async Task UpdateVideo(VideoViewModel videoVM)
+        {
+			var video = await _appDbContext.Videos.FirstOrDefaultAsync(v => v.Id == videoVM.Id);
+            video.VideoUrl = videoVM.VideoUrl;
+            video.Title = videoVM.Title;
+            video.SectionId = videoVM.SectionId;
+            await _appDbContext.SaveChangesAsync();
+		}
 
     }
 }
