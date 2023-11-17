@@ -16,6 +16,8 @@ namespace BrightWeb_BAL.ViewModels
         public double Discount { get; set; } = 0;
         public bool HasDiscount { get; set; }
         public  int Enrollments { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
         public  string Hours { get; set; }
         public byte[]? ImageBytes { get; set; }
         public string? IntructorName { get; set; }

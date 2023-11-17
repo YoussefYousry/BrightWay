@@ -83,8 +83,9 @@ namespace BrightWeb_BAL.Repositories
                 ImageBytes = _filesManager.GetFileBytes(course.ImageUrl),
                 IntructorName = course.IntructorName,
                 IntructorImageBytes = _filesManager.GetFileBytes(course.IntructorImageUrl!),
-
-            };
+				Start = course.Start,
+				End = course.End,
+			};
             return result;
         }
         public async Task<List<CourseViewModel>> GetCourses()
@@ -103,7 +104,8 @@ namespace BrightWeb_BAL.Repositories
                 ImageBytes = _filesManager.GetFileBytes(course.ImageUrl),
                 IntructorName = course.IntructorName,
                 IntructorImageBytes = _filesManager.GetFileBytes(course.IntructorImageUrl!),
-
+                Start = course.Start,
+                End = course.End,
             }).ToListAsync();
     }
 }
