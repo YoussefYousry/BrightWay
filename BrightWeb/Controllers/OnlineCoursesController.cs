@@ -173,13 +173,13 @@ namespace BrightWeb.Controllers
         [HttpGet("GetAllOnlineCourses")]
         public async Task<IActionResult> GetAllOnDemandCourses()
         {
-            var result = await _repositoryManager.OnDemandCourse.GetCourses();
+            var result = await _repositoryManager.OnlineCourse.GetCourses();
             return Ok(result);
         }
         [HttpGet("GetSingleCourse/{courseId}")]
         public async Task<IActionResult> GetSingleCourse(Guid courseId)
         {
-            var result = await _repositoryManager.OnDemandCourse.GetCourse(courseId);
+            var result = await _repositoryManager.OnlineCourse.GetCourse(courseId);
             if (result is null)
             {
                 return NotFound();
