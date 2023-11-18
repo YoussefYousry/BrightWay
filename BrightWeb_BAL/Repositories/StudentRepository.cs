@@ -45,9 +45,9 @@ namespace BrightWeb_BAL.Repositories
             .OrderBy(e => e.FirstName)
             .ToListAsync();
         public async Task<IEnumerable<StudentDto>> GetAllStudentsEnrolledInCourseAsync(Guid courseId, bool trackChanges)
-             => await FindByCondition(c => c.Courses
+             => await _context.Students.Include(s=>s.Courses).Where(c => c.Courses
              .FirstOrDefault(c => c.Id == courseId)!
-             .Id == courseId, trackChanges)
+             .Id == courseId)
              .ProjectTo<StudentDto>(_mapper.ConfigurationProvider)
              .OrderBy(e => e.UserName)
              .ToListAsync();
