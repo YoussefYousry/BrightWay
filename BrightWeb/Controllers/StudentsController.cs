@@ -117,7 +117,7 @@ namespace BrightWeb.Controllers
 
             }
             var enrolled = await _repositoryManager.Student.CheckToEnroll(enrollment.CourseId, enrollment.StudentId);
-            if (enrolled != false)
+            if (enrolled)
             {
                 return BadRequest("Student is already enrolled in the course");
             }
@@ -149,5 +149,30 @@ namespace BrightWeb.Controllers
             var products = await _repositoryManager.Student.GetProductsByStudentId(studentId);
             return Ok(products);
         }
-    }
+        [HttpPut("Enrollment/UpdateEnrollment")]
+        public async Task<IActionResult> UpdateEnrollment(EnrollmentDto enrollmentDto)
+        {
+            await _repositoryManager.Student.UpdateEnrollement(enrollmentDto);
+            return NoContent();
+        }
+        [HttpGet("Enrollment/GetEnrollmentById/{enrollmentId}")]
+        public async Task<IActionResult> GetEnrollmentById(Guid enrollmentId)
+        {
+            var enrollment = await _repositoryManager.Student.GetEnrollementById(enrollmentId);
+            return Ok(enrollment);
+        }
+        [HttpGet("Enrollment/GetEnrollmentesByCourseId/{courseId}")]
+        public async Task<IActionResult> GetEnrollmentesByCourseId(Guid courseId)
+        {
+            var enrollments = await _repositoryManager.Student.GetEnrollementsByCourseId(courseId);
+            return Ok(enrollments);
+        }
+        [HttpDelete("Enrollment/DeleteEnrollment/{enrollmentId}")]
+        public async Task<IActionResult> DeleteEnrollment(Guid enrollmentId)
+        {
+            await _repositoryManager.Student.DeleteEnrollement(enrollmentId);
+            return NoContent();
+        }
+
+	}
 }

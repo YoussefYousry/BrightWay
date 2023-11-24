@@ -13,7 +13,7 @@ namespace BrightWeb_DAL.Configurations
     {
         public static void AddIndexes(this ModelBuilder builder)
         {
-
+            builder.Entity<Header>().HasIndex(h => h.Order);
         }
         public static void AddInhertanceTables(this ModelBuilder builder)
         {

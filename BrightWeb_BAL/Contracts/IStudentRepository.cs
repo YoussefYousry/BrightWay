@@ -23,5 +23,10 @@ namespace BrightWeb_BAL.Contracts
         Task<Course> GetCourseByIdToCheck(Guid courseId);
         Task<List<EnrollmentDto>> GetEnrollementsToStudent(string studentId);
         Task<List<DocumentViewModel>> GetProductsByStudentId(string studentId);
-    }
+        Task UpdateEnrollement(EnrollmentDto enrollmentDto);
+        Task<EnrollmentDto?> GetEnrollementById(Guid id);
+        Task<List<EnrollmentDto>> GetEnrollementsByCourseId(Guid courseId);
+        Task DeleteEnrollement(Guid enrollmentId);
+
+	}
 }

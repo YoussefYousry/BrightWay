@@ -36,7 +36,7 @@ namespace BrightWeb_BAL.Services
 			{
 				SenderEmail = "brightwayeng.services@gmail.com",
 				SmtpServer = "smtp.gmail.com",
-				EnableSsl = true,
+				EnableSsl = false,
 				SmtpPassword = "Bwes2024",
 				SmtpUsername = "brightwayeng.services@gmail.com",
 				SmtpPort = 587

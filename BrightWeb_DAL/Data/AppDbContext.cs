@@ -24,7 +24,8 @@ namespace BrightWeb_DAL.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectImages> ProjectImages { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
-
+        public DbSet<Header> Headers { get; set; }
+        public DbSet<Portfolio> Portfolios { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
         {
             

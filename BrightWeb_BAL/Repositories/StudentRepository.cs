@@ -61,13 +61,8 @@ namespace BrightWeb_BAL.Repositories
         }
         public async Task<bool> CheckToEnroll(Guid courseId, string studentId)
         {
-            var students = await GetAllStudentsEnrolledInCourseAsync(courseId, false);
-            var student = students.Where(e => e.Id == studentId).FirstOrDefault();
-            if (student is null)
-            {
-                return false;
-            }
-            return true;
+            var check = await _context.Enrollments.AnyAsync(e => e.StudentId == studentId && e.CourseId == courseId);
+            return check;
         }
         public async Task<Course> GetCourseByIdToCheck(Guid courseId)
         {
@@ -108,6 +103,40 @@ namespace BrightWeb_BAL.Repositories
                                        ImageBytes = _filesManager.GetFileBytes(p.ImageUrl)
                                    })
                                    .ToListAsync();
+        public async Task UpdateEnrollement(EnrollmentDto enrollmentDto)
+        {
+            var enrollment = await _context.Enrollments.Where(e => e.Id == enrollmentDto.Id).FirstOrDefaultAsync();
+            enrollment.StudentId = enrollmentDto.StudentId;
+            enrollment.PackageId = enrollmentDto.PackageId;
+            enrollment.CourseId = enrollmentDto.CourseId;
+            enrollment.StartDate = enrollmentDto.StartDate;
+           await _context.SaveChangesAsync();
+        }
+        public async Task<EnrollmentDto?> GetEnrollementById(Guid id)
+        {
+            return await _context.Enrollments
+                .Include(s=>s.Student)
+                .Include(c=>c.Course)
+                .Include(p=>p.Package)
+                .Where(e=>e.Id == id)
+                .ProjectTo<EnrollmentDto>(_mapper.ConfigurationProvider
+                ).FirstOrDefaultAsync(); 
+        }
+        public async Task<List<EnrollmentDto>> GetEnrollementsByCourseId(Guid courseId)
+        {
+			return await _context.Enrollments
+			   .Include(s => s.Student)
+			   .Include(c => c.Course)
+			   .Include(p => p.Package)
+			   .Where(e => e.CourseId == courseId)
+			   .ProjectTo<EnrollmentDto>(_mapper.ConfigurationProvider
+			   ).ToListAsync();
+		}
+        public async Task DeleteEnrollement(Guid enrollmentId)
+        {
+           await _context.Database.ExecuteSqlRawAsync($"delete from Enrollments where Id = {enrollmentId}");
+            await _context.SaveChangesAsync();
+        }
         
 
     }
