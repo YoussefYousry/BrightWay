@@ -33,7 +33,7 @@ namespace BrightWeb.Controllers
 			await _staticRepository.UploadHeaderImage(headerId, file.File);
 			return NoContent();
 		}
-		[HttpDelete("DeleteHeader")]
+		[HttpDelete("DeleteHeader/{headerId}")]
 		public async Task<IActionResult> DeleteHeader(int headerId)
 		{
 			await _staticRepository.DeleteHeader(headerId);
@@ -45,6 +45,7 @@ namespace BrightWeb.Controllers
 			await _staticRepository.UploadPortfolio(file.File);
 			return NoContent();
 		}
+		[HttpGet("GetPortofilo")]
 		public async Task<IActionResult> GetPortofilo()
 		{
 			var result = await _staticRepository.GetPortofilo();

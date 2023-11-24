@@ -105,6 +105,7 @@ namespace BrightWeb.Extensions
             services.AddSingleton<YouTubeService>();
 
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IStaticRepository, StaticRepository>();
 
         }
     }
