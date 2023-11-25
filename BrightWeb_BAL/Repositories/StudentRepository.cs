@@ -134,9 +134,26 @@ namespace BrightWeb_BAL.Repositories
 		}
         public async Task DeleteEnrollement(Guid enrollmentId)
         {
-           await _context.Database.ExecuteSqlRawAsync($"delete from Enrollments where Id = {enrollmentId}");
+           await _context.Database.ExecuteSqlRawAsync($"delete from Enrollments where Id = '{enrollmentId}'");
             await _context.SaveChangesAsync();
         }
+        public async Task<List<AssignedProductsViewModel>> GetAssignedProducts(int productId)
+        {
+            var result = await FindAll(false).Include(s => s.Products).Where(s => s.Products.Any(p => p.Id == productId))
+                .Select(s => new AssignedProductsViewModel
+                {
+                    ProductId = s.Products.FirstOrDefault(s => s.Id == productId).Id,
+                    StudentId = s.Id,
+                    StudentName = s.Firstname + " " + s.Lastname,
+                }).ToListAsync();
+            return result;
+        }
+        public async Task DeleteAssignedProduct(int productId,string studentId)
+        {
+			await _context.Database.ExecuteSqlRawAsync($"delete from ProductStudent where ProductsId = '{productId}' and StudentsId = '{studentId}'");
+            await _context.SaveChangesAsync();
+		}
+        
         
 
     }

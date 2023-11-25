@@ -150,7 +150,7 @@ namespace BrightWeb.Controllers
             return Ok(products);
         }
         [HttpPut("Enrollment/UpdateEnrollment")]
-        public async Task<IActionResult> UpdateEnrollment(EnrollmentDto enrollmentDto)
+        public async Task<IActionResult> UpdateEnrollment([FromBody]EnrollmentDto enrollmentDto)
         {
             await _repositoryManager.Student.UpdateEnrollement(enrollmentDto);
             return NoContent();
@@ -159,6 +159,8 @@ namespace BrightWeb.Controllers
         public async Task<IActionResult> GetEnrollmentById(Guid enrollmentId)
         {
             var enrollment = await _repositoryManager.Student.GetEnrollementById(enrollmentId);
+            if (enrollment == null)
+                return NotFound();
             return Ok(enrollment);
         }
         [HttpGet("Enrollment/GetEnrollmentesByCourseId/{courseId}")]
@@ -171,6 +173,18 @@ namespace BrightWeb.Controllers
         public async Task<IActionResult> DeleteEnrollment(Guid enrollmentId)
         {
             await _repositoryManager.Student.DeleteEnrollement(enrollmentId);
+            return NoContent();
+        }
+        [HttpGet("GetAssignedProducts/{productId}")]
+        public async Task<IActionResult> GetAssignedProducts(int productId)
+        {
+            var result = await _repositoryManager.Student.GetAssignedProducts(productId);
+            return Ok(result);
+        }
+        [HttpDelete("DeleteAssignProduct")]
+        public async Task<IActionResult> DeleteAssignProduct(int productId, string studentId)
+        {
+            await _repositoryManager.Student.DeleteAssignedProduct(productId, studentId);
             return NoContent();
         }
 
