@@ -154,6 +154,34 @@ namespace BrightWeb.Controllers
              return new FileStreamResult(fileViewModel.File, "application/pdf");
 
         } 
+        [HttpGet("Product/GetFileBiProductId/{productId}")]
+        public async Task<IActionResult> GetFileByProductId(int productId)
+        {
+            var product = await _repositoryManager.Products.GetProduct(productId);
+            if(product is null)
+            {
+                return NotFound();
+            }
+            var fileViewModel = (await _repositoryManager.Products.GetProductFile(productId));
+            if(fileViewModel.TypeOfFile == BrightWeb_DAL.Models.TypeOfFile.PDF)
+            {
+                return new FileStreamResult(fileViewModel.File, "application/pdf");
+            }
+            else if(fileViewModel.TypeOfFile == BrightWeb_DAL.Models.TypeOfFile.Excel)
+            {
+                return new FileStreamResult(fileViewModel.File, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            }
+            else if(fileViewModel.TypeOfFile == BrightWeb_DAL.Models.TypeOfFile.Word)
+            {
+                return new FileStreamResult(fileViewModel.File, "application/msword");
+            }
+            else if(fileViewModel.TypeOfFile == BrightWeb_DAL.Models.TypeOfFile.PowerPoint)
+            {
+                return new FileStreamResult(fileViewModel.File, "application/vnd.ms-powerpoint");
+            }
+             return new FileStreamResult(fileViewModel.File, "application/pdf");
+
+        } 
         [HttpGet("Publication/GetFile/{publicationId}")]
         public async Task<IActionResult> GetPublicationFile(int publicationId)
         {
