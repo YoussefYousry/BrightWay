@@ -108,7 +108,7 @@ namespace BrightWeb.Controllers
 			var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 			var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
-			var callbackUrl = $"https://localhost:7187/api/Authentication/resetpassword?email={Uri.EscapeDataString(email)}&token={encodedToken}";
+			var callbackUrl = $"https://brightway-frontend.vercel.app/ForgotPassword?email={Uri.EscapeDataString(email)}&token={encodedToken}";
 
 			// Send the password reset email with the callback URL
 			try
