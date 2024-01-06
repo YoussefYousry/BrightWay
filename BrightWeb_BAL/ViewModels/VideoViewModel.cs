@@ -10,7 +10,7 @@ namespace BrightWeb_BAL.ViewModels
 	public class VideoViewModel
 	{
 		public int Id { get; set; }
-		public required string Title { get; set; }
+		public string Title { get; set; }
 		public string? VideoUrl { get; set; }
 		public Guid SectionId { get; set; }
 	}

@@ -55,14 +55,14 @@ namespace BrightWeb.Controllers
             var useradmin = await _userAdminManager.IsInRoleAsync(admin!, "Admin");
             var token = await _authService.CreateToken();
             var userId = await _userAdminManager.GetUserIdAsync(admin!);
-            var cookieOptions = new CookieOptions
-            {
-                Expires = DateTime.Now.AddDays(20),
-                Secure = true,
-                SameSite = SameSiteMode.Strict
-            };
-            Response.Cookies.Append("StudentId", userId, cookieOptions);
-            Response.Cookies.Append("Token", token, cookieOptions);
+            //var cookieOptions = new CookieOptions
+            //{
+            //    Expires = DateTime.Now.AddDays(20),
+            //    Secure = true,
+            //    SameSite = SameSiteMode.Strict
+            //};
+            //Response.Cookies.Append("StudentId", userId, cookieOptions);
+            //Response.Cookies.Append("Token", token, cookieOptions);
             if (!useradmin)
                 return NotFound();
             return Ok(

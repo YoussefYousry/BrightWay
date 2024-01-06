@@ -35,10 +35,10 @@ builder.Services.ConfigureIdentity<User>();
 builder.Services.ConfigureIdentity<Student>();
 builder.Services.ConfigureJwt(builder.Configuration);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddHttpClient("YouTubeAPI", client =>
-{
-    client.BaseAddress = new Uri("https://www.googleapis.com/youtube/v3/");
-});
+//builder.Services.AddHttpClient("YouTubeAPI", client =>
+//{
+//    client.BaseAddress = new Uri("https://www.googleapis.com/youtube/v3/");
+//});
 
 builder.Services.AddControllers().AddJsonOptions(
   opt =>
@@ -75,17 +75,16 @@ builder.Services.AddSwaggerGen(s =>
 
 
 var app = builder.Build();
-app.UseRouting();
-app.UseCors(MyAllowSpecificOrigins);
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
-
+//}
+app.UseRouting();
 app.UseHttpsRedirection();
-
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapControllers();

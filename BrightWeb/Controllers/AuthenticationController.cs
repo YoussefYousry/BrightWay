@@ -22,7 +22,7 @@ namespace BrightWeb.Controllers
         private IEmailService _emailService;
         //private readonly IEmailService _emailService;
         public AuthenticationController(
-            UserManager<Student> userManager, IAuthService authService, IMapper mapper,IEmailService emailService)
+            UserManager<Student> userManager, IAuthService authService, IMapper mapper, IEmailService emailService)
             //, IEmailService emailService)
         {
             _userManager = userManager;
@@ -60,14 +60,14 @@ namespace BrightWeb.Controllers
                 return Unauthorized();
             var student = await _userManager.FindByEmailAsync(user.Email!);
             var token = await _authService.CreateToken();
-            var cookieOptions = new CookieOptions
-            {
-                Expires = DateTime.Now.AddDays(20),
-                Secure = true,
-                SameSite = SameSiteMode.Strict
-            };
-            Response.Cookies.Append("StudentId", student!.Id, cookieOptions);
-            Response.Cookies.Append("Token", token, cookieOptions);
+            //var cookieOptions = new CookieOptions
+            //{
+            //    Expires = DateTime.Now.AddDays(20),
+            //    Secure = true,
+            //    SameSite = SameSiteMode.Strict
+            //};
+            //Response.Cookies.Append("StudentId", student!.Id, cookieOptions);
+            //Response.Cookies.Append("Token", token, cookieOptions);
             return Ok(
             new
             {
@@ -97,8 +97,8 @@ namespace BrightWeb.Controllers
 			// Send the password reset email with the callback URL
 			try
 			{
-				await _emailService.SendPasswordResetEmailAsync(email, callbackUrl);
-				return Ok();
+                await _emailService.SendPasswordResetEmailAsync(email, callbackUrl);
+                return Ok();
 			}
 			catch (Exception ex)
 			{

@@ -32,4 +32,8 @@
     <ProjectReference Include="..\BrightWeb_DAL\BrightWeb_DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

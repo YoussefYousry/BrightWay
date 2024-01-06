@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BrightWeb_BAL.Contracts;
 using BrightWeb_BAL.DTO;
-using BrightWeb_BAL.Services;
 using BrightWeb_BAL.ViewModels;
 using BrightWeb_DAL.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -18,14 +17,13 @@ namespace BrightWeb.Controllers
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
-        private YouTubeService _youTubeService;
+        //private YouTubeService _youTubeService;
 
         public OnDemandCoursesController(
-                 IRepositoryManager repository, IMapper mapper,YouTubeService youTubeService)
+                 IRepositoryManager repository, IMapper mapper)
         {
             _repositoryManager = repository;
             _mapper = mapper;
-            _youTubeService = youTubeService;
         }
         [HttpGet]
         //[Authorize(Roles = "Student,Admin")]
@@ -189,12 +187,12 @@ namespace BrightWeb.Controllers
             }
 
         }
-        [HttpGet("GetVideo")]
-        public async Task<IActionResult> GetVideo(string videoId)
-        {
-            var video = await _youTubeService.GetVideoDetails(videoId);
-            return Ok(video);
-        }
+        //[HttpGet("GetVideo")]
+        //public async Task<IActionResult> GetVideo(string videoId)
+        //{
+        //    var video = await _youTubeService.GetVideoDetails(videoId);
+        //    return Ok(video);
+        //}
     }
 
 }

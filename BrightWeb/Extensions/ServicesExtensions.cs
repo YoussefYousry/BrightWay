@@ -38,7 +38,7 @@ namespace BrightWeb.Extensions
         }
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtSettings = configuration.GetSection("JwtSettings");
+            //var jwtSettings = configuration.GetSection("JwtSettings");
             var secretKey = Encoding.UTF8.GetBytes("BrightWaySecretAPIKeyValueToStoreInServer");
             services.AddAuthentication(opt =>
             {
@@ -57,12 +57,12 @@ namespace BrightWeb.Extensions
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = jwtSettings.GetSection("validIssuer").Value,
-                        ValidAudience = jwtSettings.GetSection("validAudience").Value,
+                        ValidIssuer = "BrightWeb",
+                        ValidAudience = "http://brightway-001-site1.ftempurl.com",
                         IssuerSigningKey = new SymmetricSecurityKey(secretKey)
                     };
-                })
-                .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"), "jwtBearerScheme2");
+                });
+                //.AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"), "jwtBearerScheme2");
 
         }
 
@@ -102,7 +102,7 @@ namespace BrightWeb.Extensions
             services.AddScoped<IProjectsRepository, ProjectsRepository>();
             services.AddScoped<RepositoryBase<Project>, ProjectsRepository>();
 
-            services.AddSingleton<YouTubeService>();
+            //services.AddSingleton<YouTubeService>();
 
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IStaticRepository, StaticRepository>();

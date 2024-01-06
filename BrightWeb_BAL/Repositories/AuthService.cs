@@ -57,12 +57,12 @@ namespace BrightWeb_BAL.Repositories
         }
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
         {
-            var jwtSettings = _configuration.GetSection("JwtSettings");
+           // var jwtSettings = _configuration.GetSection("JwtSettings");
             var tokenOptions = new JwtSecurityToken(
-                issuer: jwtSettings.GetSection("validIssuer").Value,
-                audience: jwtSettings.GetSection("validAudience").Value,
+                issuer: "BrightWeb",
+                audience: "http://brightway-001-site1.ftempurl.com",
                 claims: claims,
-                expires: DateTime.Now.AddMonths(Convert.ToInt32(jwtSettings.GetSection("expires").Value)),
+                expires: DateTime.Now.AddMonths(5),
                 signingCredentials: signingCredentials
                 );
             return tokenOptions;
